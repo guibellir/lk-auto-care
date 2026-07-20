@@ -612,101 +612,189 @@ ul {
   color: var(--muted);
 }
 
+/* Hero visual — mounted neon shop sign (not floating chips) */
 .hero-visual {
   position: relative;
-  display: grid;
-  place-items: center;
-  min-height: 320px;
+  width: 100%;
+  min-height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.hero-logo-ring {
+.sign-scene {
   position: relative;
-  width: min(360px, 80vw);
+  width: min(420px, 100%);
+  padding: 1.5rem 1.15rem 1.15rem;
+}
+
+.sign-scene-glow {
+  position: absolute;
+  inset: 10% 8% 18%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 229, 255, 0.28) 0%,
+    rgba(255, 106, 0, 0.1) 42%,
+    transparent 70%
+  );
+  filter: blur(28px);
+  pointer-events: none;
+  animation: sign-ambient 7s ease-in-out infinite;
+}
+
+@keyframes sign-ambient {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+.sign-scene-wall {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background:
+    linear-gradient(180deg, rgba(5, 7, 12, 0.2), rgba(5, 7, 12, 0.72)),
+    repeating-linear-gradient(
+      0deg,
+      #1c1512 0 17px,
+      #120e0c 17px 19px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      #241b17 0 46px,
+      #16110f 46px 48px
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 30px 70px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.sign-scene-wall::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 70% 55% at 50% 40%,
+    transparent 20%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+  pointer-events: none;
+}
+
+.sign-fixture {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sign-bracket {
+  display: flex;
+  gap: 4.5rem;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: -0.35rem;
+}
+
+.sign-bracket span {
+  width: 10px;
+  height: 22px;
+  border-radius: 2px 2px 4px 4px;
+  background: linear-gradient(180deg, #3a424f, #1a1f28);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.sign-disc {
+  position: relative;
+  width: min(300px, 78%);
   aspect-ratio: 1;
   display: grid;
   place-items: center;
 }
 
-.hero-logo-glow {
+.sign-disc-ring {
   position: absolute;
-  inset: 8%;
+  inset: -6px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(0, 229, 255, 0.35) 0%,
-    rgba(255, 106, 0, 0.12) 40%,
-    transparent 70%
-  );
-  filter: blur(18px);
-  animation: pulse-glow 4s ease-in-out infinite;
+  border: 1px solid rgba(0, 229, 255, 0.22);
+  box-shadow:
+    0 0 0 6px rgba(0, 0, 0, 0.25),
+    0 0 40px rgba(0, 229, 255, 0.18);
+  pointer-events: none;
 }
 
-@keyframes pulse-glow {
-  0%,
-  100% {
-    opacity: 0.7;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.06);
-  }
-}
-
-.hero-logo {
+.sign-logo {
   position: relative;
-  width: 88%;
+  width: 100%;
   height: auto;
   border-radius: 50%;
-  box-shadow:
-    0 0 0 1px rgba(0, 229, 255, 0.35),
-    0 0 60px rgba(0, 229, 255, 0.25),
-    0 30px 80px rgba(0, 0, 0, 0.5);
+  filter: drop-shadow(0 0 22px rgba(0, 229, 255, 0.35))
+    drop-shadow(0 16px 36px rgba(0, 0, 0, 0.55));
 }
 
-.floating-chip {
-  position: absolute;
-  padding: 0.5rem 0.85rem;
-  border-radius: 999px;
-  background: rgba(8, 11, 18, 0.88);
-  border: 1px solid var(--line-strong);
-  backdrop-filter: blur(12px);
-  font-size: 0.78rem;
+.sign-plaque {
+  width: 100%;
+  padding: 0.85rem 1rem 0.95rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(180deg, rgba(14, 18, 26, 0.95), rgba(8, 10, 16, 0.98));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 10px 28px rgba(0, 0, 0, 0.35);
+  text-align: center;
+}
+
+.sign-plaque-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem 0.65rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: var(--text-soft);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
-  animation: float-chip 8s ease-in-out infinite;
+  color: var(--text);
+  margin-bottom: 0.35rem;
 }
 
-.chip-1 {
-  top: 12%;
-  left: 0;
-  color: var(--neon-soft);
-  border-color: rgba(0, 229, 255, 0.3);
+.sign-plaque-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 8px rgba(255, 106, 0, 0.5);
 }
 
-.chip-2 {
-  top: 42%;
-  right: 0;
-  color: var(--orange-soft);
-  border-color: rgba(255, 106, 0, 0.35);
-  animation-delay: -2s;
+.sign-plaque-tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.4;
 }
 
-.chip-3 {
-  bottom: 12%;
-  left: 12%;
-  animation-delay: -3.5s;
-}
-
-@keyframes float-chip {
-  0%,
-  100% {
-    transform: translateY(0);
+@media (max-width: 480px) {
+  .sign-bracket {
+    gap: 3.25rem;
   }
-  50% {
-    transform: translateY(-10px);
+
+  .sign-plaque-tag {
+    font-size: 0.66rem;
   }
 }
 
@@ -732,8 +820,8 @@ ul {
 
 .hero-reveal-visual {
   opacity: 0;
-  transform: scale(0.94);
-  animation: hero-in-scale 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+  transform: translateY(22px);
+  animation: hero-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.12s forwards;
 }
 
 @keyframes hero-in {
@@ -743,20 +831,12 @@ ul {
   }
 }
 
-@keyframes hero-in-scale {
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .hero-reveal,
   .hero-reveal-visual,
   .hero-orb,
-  .floating-chip,
   .badge-dot,
-  .hero-logo-glow,
+  .sign-scene-glow,
   .marquee-track {
     animation: none !important;
   }

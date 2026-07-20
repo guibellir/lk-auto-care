@@ -69,20 +69,40 @@ export function HomeContent() {
           </div>
 
           <div className="hero-visual hero-reveal-visual">
-            <div className="hero-logo-ring">
-              <div className="hero-logo-glow" />
-              <Image
-                src="/images/logo.png"
-                alt="LK Auto Care — washing, detailing, premium auto care since 2022"
-                className="hero-logo"
-                width={360}
-                height={360}
-                priority
-              />
+            <div className="sign-scene">
+              <div className="sign-scene-glow" aria-hidden="true" />
+              <div className="sign-scene-wall" aria-hidden="true" />
+
+              <div className="sign-fixture">
+                <div className="sign-bracket" aria-hidden="true">
+                  <span />
+                  <span />
+                </div>
+
+                <div className="sign-disc">
+                  <div className="sign-disc-ring" aria-hidden="true" />
+                  <Image
+                    src="/images/logo.png"
+                    alt="LK Auto Care neon sign — washing, detailing, premium auto care since 2022"
+                    className="sign-logo"
+                    width={380}
+                    height={380}
+                    priority
+                  />
+                </div>
+
+                <div className="sign-plaque">
+                  <div className="sign-plaque-row">
+                    <span>{brand.city}, {brand.stateCode}</span>
+                    <span className="sign-plaque-dot" aria-hidden="true" />
+                    <span>Est. {brand.established}</span>
+                  </div>
+                  <p className="sign-plaque-tag">
+                    Interior & exterior detail · Polish · LED · Exhaust · Remap
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="floating-chip chip-1">Interior · Exterior</div>
-            <div className="floating-chip chip-2">Everett · MA</div>
-            <div className="floating-chip chip-3">Est. {brand.established}</div>
           </div>
         </div>
       </section>
