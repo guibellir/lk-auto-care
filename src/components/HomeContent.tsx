@@ -82,11 +82,11 @@ export function HomeContent() {
                 <div className="sign-disc">
                   <div className="sign-disc-ring" aria-hidden="true" />
                   <Image
-                    src="/images/logo.png"
+                    src="/images/logo-centered.png"
                     alt="LK Auto Care neon sign — washing, detailing, premium auto care since 2022"
                     className="sign-logo"
-                    width={380}
-                    height={380}
+                    width={466}
+                    height={466}
                     priority
                   />
                 </div>

@@ -742,12 +742,12 @@ ul {
 
 .sign-logo {
   position: relative;
+  display: block;
   width: 100%;
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  /* Neon oval in the PNG sits ~15px above center — pin that point to the circle center */
-  object-position: 50% 47%;
+  object-position: center center;
   filter: drop-shadow(0 0 22px rgba(0, 229, 255, 0.35))
     drop-shadow(0 16px 36px rgba(0, 0, 0, 0.55));
 }
