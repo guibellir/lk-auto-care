@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import { Inter, Space_Grotesk } from 'next/font/google'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
+import { MobileCtaBar } from '@/components/MobileCtaBar'
+import { ScrollProgress } from '@/components/ScrollProgress'
 import { JsonLd } from '@/components/JsonLd'
 import { brand, getSiteUrl, siteKeywords } from '@/data/brand'
 import { buildStructuredData } from '@/seo/structuredData'
@@ -11,6 +13,8 @@ const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
+  preload: true,
+  adjustFontFallback: true,
 })
 
 const spaceGrotesk = Space_Grotesk({
@@ -18,14 +22,20 @@ const spaceGrotesk = Space_Grotesk({
   variable: '--font-space',
   display: 'swap',
   weight: ['500', '600', '700'],
+  preload: true,
+  adjustFontFallback: true,
 })
 
 const siteUrl = getSiteUrl()
 
 export const viewport: Viewport = {
-  themeColor: '#05070c',
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: '#05070c' },
+    { media: '(prefers-color-scheme: light)', color: '#05070c' },
+  ],
   width: 'device-width',
   initialScale: 1,
+  viewportFit: 'cover',
   colorScheme: 'dark',
 }
 
@@ -42,6 +52,20 @@ export const metadata: Metadata = {
   publisher: brand.legalName,
   category: 'automotive',
   keywords: siteKeywords,
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: brand.shortName,
+  },
+  formatDetection: {
+    telephone: true,
+    email: true,
+    address: true,
+  },
+  icons: {
+    icon: '/favicon.png',
+    apple: '/images/logo-256.png',
+  },
   alternates: {
     canonical: '/',
   },
@@ -101,10 +125,12 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable}`}
     >
       <body>
+        <ScrollProgress />
         <JsonLd data={structuredData} />
         <Header />
         {children}
         <Footer />
+        <MobileCtaBar />
       </body>
     </html>
   )

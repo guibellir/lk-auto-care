@@ -2,11 +2,12 @@
 
 import { useState, type FormEvent } from 'react'
 import { brand, serviceAreas, services } from '@/data/brand'
-import { emailLink } from '@/lib/contact'
+import { emailLink, phoneLink } from '@/lib/contact'
 import { ArrowRightIcon } from '@/components/Icons'
 
 export function ContactForm() {
   const [formStatus, setFormStatus] = useState<'idle' | 'sent'>('idle')
+  const tel = phoneLink()
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -39,6 +40,9 @@ export function ContactForm() {
           required
           placeholder="Your name"
           autoComplete="name"
+          autoCapitalize="words"
+          enterKeyHint="next"
+          spellCheck={false}
         />
       </div>
       <div className="form-row">
@@ -57,20 +61,17 @@ export function ContactForm() {
       </div>
       <div className="form-row">
         <label htmlFor="city">City</label>
-        <input
-          id="city"
-          name="city"
-          type="text"
-          required
-          placeholder="e.g. Medford"
-          list="city-list"
-          autoComplete="address-level2"
-        />
-        <datalist id="city-list">
+        <select id="city" name="city" required defaultValue="">
+          <option value="" disabled>
+            Select a city
+          </option>
           {serviceAreas.map((a) => (
-            <option key={a.name} value={a.name} />
+            <option key={a.name} value={a.name}>
+              {a.name}
+            </option>
           ))}
-        </datalist>
+          <option value="Other / nearby">Other / nearby</option>
+        </select>
       </div>
       <div className="form-row">
         <label htmlFor="message">Message</label>
@@ -80,6 +81,8 @@ export function ContactForm() {
           rows={4}
           placeholder="Vehicle year/make/model and what you want done..."
           required
+          enterKeyHint="send"
+          autoCapitalize="sentences"
         />
       </div>
       <button className="btn btn-primary btn-lg btn-block" type="submit">
@@ -89,12 +92,26 @@ export function ContactForm() {
       {formStatus === 'sent' ? (
         <p className="form-note">
           Opening your email client… If nothing opens, write us at{' '}
-          <a href={emailLink()}>{brand.email}</a>.
+          <a href={emailLink()}>{brand.email}</a>
+          {tel ? (
+            <>
+              {' '}
+              or call{' '}
+              <a href={tel}>{brand.phoneDisplay || brand.phone}</a>
+            </>
+          ) : null}
+          .
         </p>
       ) : (
         <p className="form-note">
-          Opens your email app with the details filled in. Phone & WhatsApp can
-          be added anytime.
+          Opens your email app with the details filled in.
+          {tel ? (
+            <>
+              {' '}
+              Prefer to talk?{' '}
+              <a href={tel}>Call or text {brand.phoneDisplay || brand.phone}</a>.
+            </>
+          ) : null}
         </p>
       )}
     </form>

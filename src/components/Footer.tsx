@@ -15,11 +15,12 @@ export function Footer() {
         <div className="footer-brand">
           <Link href="/" className="footer-logo-link">
             <Image
-              src="/images/logo.png"
+              src="/images/logo-256.png"
               alt={`${brand.name} logo`}
               className="footer-logo"
               width={64}
               height={64}
+              sizes="64px"
             />
             <div>
               <strong>{brand.name}</strong>
@@ -71,7 +72,7 @@ export function Footer() {
             <InstagramIcon size={16} /> @{brand.instagram}
           </a>
           <Link className="btn btn-secondary footer-cta" href="/#contact">
-            Request a quote
+            Send a message
           </Link>
         </div>
       </div>

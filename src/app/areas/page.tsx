@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { brand, getSiteUrl, serviceAreas } from '@/data/brand'
 import { Reveal } from '@/components/Reveal'
 import { JsonLd } from '@/components/JsonLd'
-import { ArrowRightIcon, MapPinIcon } from '@/components/Icons'
+import { ArrowRightIcon, MapPinIcon, PhoneIcon } from '@/components/Icons'
+import { phoneLink } from '@/lib/contact'
 
 const site = getSiteUrl()
 const cityList = serviceAreas.map((a) => a.name).join(', ')
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
 }
 
 export default function AreasPage() {
+  const tel = phoneLink()
   const structured = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
@@ -89,10 +91,21 @@ export default function AreasPage() {
                 {brand.city}, we are built for Boston-area roads and New England
                 weather.
               </p>
-              <Link className="btn btn-primary" href="/#contact">
-                Request service in your city
-                <ArrowRightIcon size={16} />
-              </Link>
+              <div className="cta-banner-actions">
+                {tel ? (
+                  <a className="btn btn-primary" href={tel}>
+                    <PhoneIcon size={16} />
+                    Give us a call
+                  </a>
+                ) : null}
+                <Link
+                  className={tel ? 'btn btn-secondary' : 'btn btn-primary'}
+                  href="/#contact"
+                >
+                  Request service in your city
+                  <ArrowRightIcon size={16} />
+                </Link>
+              </div>
             </Reveal>
           </div>
         </section>

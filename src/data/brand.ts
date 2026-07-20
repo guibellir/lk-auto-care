@@ -14,13 +14,13 @@ export const brand = {
   stateCode: 'MA',
   country: 'US',
   countryCode: 'US',
-  /** Update when phone is confirmed */
-  phone: '' as string,
-  phoneDisplay: '' as string,
+  /** Digits with country code (US = 1) — used for tel: and schema */
+  phone: '17748109849',
+  phoneDisplay: '(774) 810-9849',
   /** Update when email is confirmed */
   email: 'hello@lkautocare.com',
   /** Instagram handle without @ — update when live */
-  instagram: 'lkautocare',
+  instagram: 'lkautocare7',
   /** WhatsApp digits only with country code, e.g. 17815551234 — leave empty until set */
   whatsapp: '' as string,
   priceRange: '$$',
@@ -179,7 +179,7 @@ export const faqItems = [
   {
     question: 'How do I book a detail or service?',
     answer:
-      'Reach out through the contact form or call/message us with your vehicle, preferred service, and city. We will confirm availability and recommend the right package.',
+      'Call or text us at (774) 810-9849, or send a request through the contact form with your vehicle, preferred service, and city. We will confirm availability and recommend the right package.',
   },
   {
     question: 'How long does a full detail take?',

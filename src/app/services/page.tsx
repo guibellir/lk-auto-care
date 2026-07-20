@@ -3,7 +3,13 @@ import Link from 'next/link'
 import { brand, getSiteUrl, services } from '@/data/brand'
 import { Reveal } from '@/components/Reveal'
 import { JsonLd } from '@/components/JsonLd'
-import { ArrowRightIcon, CheckIcon, serviceIcon } from '@/components/Icons'
+import {
+  ArrowRightIcon,
+  CheckIcon,
+  PhoneIcon,
+  serviceIcon,
+} from '@/components/Icons'
+import { phoneLink } from '@/lib/contact'
 
 const site = getSiteUrl()
 
@@ -21,6 +27,7 @@ export const metadata: Metadata = {
 }
 
 export default function ServicesPage() {
+  const tel = phoneLink()
   const structured = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -93,14 +100,27 @@ export default function ServicesPage() {
               <div>
                 <h2>Ready to book?</h2>
                 <p>
-                  Tell us your vehicle and city — we&apos;ll recommend the right
-                  service path.
+                  Give us a call or send a message with your vehicle and city —
+                  we&apos;ll recommend the right service path.
                 </p>
               </div>
-              <Link className="btn btn-primary btn-lg" href="/#contact">
-                Contact us
-                <ArrowRightIcon size={18} />
-              </Link>
+              <div className="cta-banner-actions">
+                {tel ? (
+                  <a className="btn btn-primary btn-lg" href={tel}>
+                    <PhoneIcon size={18} />
+                    Give us a call
+                  </a>
+                ) : null}
+                <Link
+                  className={
+                    tel ? 'btn btn-secondary btn-lg' : 'btn btn-primary btn-lg'
+                  }
+                  href="/#contact"
+                >
+                  Send a message
+                  <ArrowRightIcon size={18} />
+                </Link>
+              </div>
             </Reveal>
           </div>
         </section>

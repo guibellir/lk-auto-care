@@ -14,13 +14,16 @@ import { GallerySection } from '@/components/GallerySection'
 import {
   ArrowRightIcon,
   CheckIcon,
+  MailIcon,
   MapPinIcon,
+  PhoneIcon,
   serviceIcon,
 } from '@/components/Icons'
-import { emailLink } from '@/lib/contact'
+import { emailLink, phoneLink } from '@/lib/contact'
 
 export function HomeContent() {
   const marqueeCities = [...serviceAreas, ...serviceAreas]
+  const tel = phoneLink()
 
   return (
     <main id="main">
@@ -54,9 +57,16 @@ export function HomeContent() {
                 Book a service
                 <ArrowRightIcon size={18} />
               </a>
-              <a className="btn btn-ghost btn-lg" href="#services">
-                Explore services
-              </a>
+              {tel ? (
+                <a className="btn btn-ghost btn-lg" href={tel}>
+                  <PhoneIcon size={18} />
+                  Give us a call
+                </a>
+              ) : (
+                <a className="btn btn-ghost btn-lg" href="#services">
+                  Explore services
+                </a>
+              )}
             </div>
             <div className="hero-stats hero-reveal hero-reveal-delay-4">
               {stats.map((s) => (
@@ -87,13 +97,17 @@ export function HomeContent() {
                     className="sign-logo"
                     width={466}
                     height={466}
+                    sizes="(max-width: 480px) 70vw, 300px"
+                    quality={80}
                     priority
                   />
                 </div>
 
                 <div className="sign-plaque">
                   <div className="sign-plaque-row">
-                    <span>{brand.city}, {brand.stateCode}</span>
+                    <span>
+                      {brand.city}, {brand.stateCode}
+                    </span>
                     <span className="sign-plaque-dot" aria-hidden="true" />
                     <span>Est. {brand.established}</span>
                   </div>
@@ -124,8 +138,9 @@ export function HomeContent() {
 
       {/* SERVICES */}
       <section className="section services" id="services">
+        <div className="section-glow section-glow-orange" aria-hidden="true" />
         <div className="container">
-          <Reveal className="section-header">
+          <Reveal className="section-header" variant="rise">
             <div className="section-label">What we do</div>
             <h2 className="section-title">
               Full-spectrum auto care,{' '}
@@ -142,7 +157,7 @@ export function HomeContent() {
             {services.map((service, index) => (
               <Reveal
                 key={service.id}
-                variant="up"
+                variant={index % 2 === 0 ? 'up' : 'scale'}
                 delay={index}
                 className={`service-card service-card-${index + 1}`}
               >
@@ -171,7 +186,7 @@ export function HomeContent() {
       {/* WHY US */}
       <section className="section why" id="about">
         <div className="container why-grid">
-          <Reveal variant="left">
+          <Reveal variant="left" className="why-copy">
             <div className="section-label">Why LK</div>
             <h2 className="section-title">
               Modern craft.
@@ -184,24 +199,24 @@ export function HomeContent() {
               detail before a weekend drive or a sharper night-time beam
               pattern, we treat every vehicle like it has somewhere to be seen.
             </p>
-            <ul className="why-list">
-              <li>
+            <ul className="why-list stagger-children">
+              <li className="stagger-item">
                 <CheckIcon /> Premium interior & exterior detailing
               </li>
-              <li>
+              <li className="stagger-item">
                 <CheckIcon /> Paint correction & polishing
               </li>
-              <li>
+              <li className="stagger-item">
                 <CheckIcon /> LED, exhaust & remap upgrades
               </li>
-              <li>
+              <li className="stagger-item">
                 <CheckIcon /> Greater Boston coverage from Everett
               </li>
             </ul>
           </Reveal>
 
-          <Reveal variant="right" className="why-panel">
-            <div className="glass-panel">
+          <Reveal variant="blur" delay={1} className="why-panel">
+            <div className="glass-panel glass-panel-accent">
               <div className="glass-stat">
                 <strong>ESTD {brand.established}</strong>
                 <span>Built for Boston-area drivers</span>
@@ -212,12 +227,12 @@ export function HomeContent() {
                 — it is the product: clean cabins, crisp paint, brighter lights,
                 confident sound, and responsive power.
               </p>
-              <div className="glass-tags">
-                <span>Detail</span>
-                <span>Polish</span>
-                <span>LED</span>
-                <span>Exhaust</span>
-                <span>Remap</span>
+              <div className="glass-tags stagger-children">
+                <span className="stagger-item">Detail</span>
+                <span className="stagger-item">Polish</span>
+                <span className="stagger-item">LED</span>
+                <span className="stagger-item">Exhaust</span>
+                <span className="stagger-item">Remap</span>
               </div>
             </div>
           </Reveal>
@@ -226,14 +241,20 @@ export function HomeContent() {
 
       {/* PROCESS */}
       <section className="section process" id="process">
+        <div className="section-glow section-glow-cyan" aria-hidden="true" />
         <div className="container">
-          <Reveal className="section-header center">
+          <Reveal className="section-header center" variant="rise">
             <div className="section-label">How it works</div>
             <h2 className="section-title">Book in three simple steps</h2>
           </Reveal>
           <div className="process-grid">
             {processSteps.map((step, i) => (
-              <Reveal key={step.step} delay={i} className="process-card">
+              <Reveal
+                key={step.step}
+                variant="up"
+                delay={i}
+                className="process-card"
+              >
                 <span className="process-num">{step.step}</span>
                 <h3>{step.title}</h3>
                 <p>{step.description}</p>
@@ -246,7 +267,7 @@ export function HomeContent() {
       {/* AREAS */}
       <section className="section areas" id="areas">
         <div className="container">
-          <Reveal className="section-header">
+          <Reveal className="section-header" variant="rise">
             <div className="section-label">Service areas</div>
             <h2 className="section-title">
               Based in Everett —{' '}
@@ -260,7 +281,12 @@ export function HomeContent() {
 
           <div className="areas-grid">
             {serviceAreas.map((area, i) => (
-              <Reveal key={area.name} delay={i % 6} className="area-chip-wrap">
+              <Reveal
+                key={area.name}
+                delay={i % 6}
+                variant="scale"
+                className="area-chip-wrap"
+              >
                 <div className={`area-chip ${area.primary ? 'primary' : ''}`}>
                   <MapPinIcon size={16} />
                   <span>{area.name}</span>
@@ -272,7 +298,7 @@ export function HomeContent() {
             ))}
           </div>
 
-          <Reveal className="areas-cta">
+          <Reveal className="areas-cta" delayMs={120}>
             <p>
               Don&apos;t see your city?{' '}
               <a href="#contact">Ask us — we may already cover it.</a>
@@ -290,7 +316,7 @@ export function HomeContent() {
       {/* FAQ */}
       <section className="section faq" id="faq">
         <div className="container faq-layout">
-          <Reveal>
+          <Reveal variant="left">
             <div className="section-label">FAQ</div>
             <h2 className="section-title">Questions, answered</h2>
             <p className="section-lead">
@@ -305,18 +331,28 @@ export function HomeContent() {
 
       {/* CONTACT */}
       <section className="section contact" id="contact">
+        <div className="section-glow section-glow-mixed" aria-hidden="true" />
         <div className="container contact-grid">
-          <Reveal>
+          <Reveal variant="left">
             <div className="section-label">Contact</div>
             <h2 className="section-title">
               Ready for a <span className="text-gradient">premium finish?</span>
             </h2>
             <p className="section-lead">
-              Tell us about your vehicle and city. We&apos;ll get back with
-              availability and a clear recommendation.
+              Give us a call or send a quick message with your vehicle and city.
+              We&apos;ll confirm availability and recommend the right service.
             </p>
-            <div className="contact-points">
-              <div>
+            <div className="contact-points stagger-children">
+              {tel ? (
+                <div className="stagger-item">
+                  <PhoneIcon />
+                  <div>
+                    <strong>Call or text</strong>
+                    <a href={tel}>{brand.phoneDisplay || brand.phone}</a>
+                  </div>
+                </div>
+              ) : null}
+              <div className="stagger-item">
                 <MapPinIcon />
                 <div>
                   <strong>Location</strong>
@@ -325,14 +361,25 @@ export function HomeContent() {
                   </span>
                 </div>
               </div>
-              <div>
-                <strong className="contact-mail-label">Email</strong>
-                <a href={emailLink()}>{brand.email}</a>
+              <div className="stagger-item">
+                <MailIcon />
+                <div>
+                  <strong>Email</strong>
+                  <a href={emailLink()}>{brand.email}</a>
+                </div>
               </div>
             </div>
+            {tel ? (
+              <div className="contact-actions stagger-children">
+                <a className="btn btn-secondary stagger-item" href={tel}>
+                  <PhoneIcon size={18} />
+                  Call {brand.phoneDisplay || brand.phone}
+                </a>
+              </div>
+            ) : null}
           </Reveal>
 
-          <Reveal variant="scale" className="contact-form-wrap">
+          <Reveal variant="blur" delay={1} className="contact-form-wrap">
             <ContactForm />
           </Reveal>
         </div>

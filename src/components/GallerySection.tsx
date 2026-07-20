@@ -11,12 +11,12 @@ export function GallerySection() {
 
   return (
     <section className="section gallery" id="gallery">
+      <div className="section-glow section-glow-cyan" aria-hidden="true" />
       <div className="container">
-        <Reveal className="section-header">
+        <Reveal className="section-header" variant="rise">
           <div className="section-label">Results</div>
           <h2 className="section-title">
-            Before & after —{' '}
-            <span className="text-gradient">real work</span>
+            Before & after — <span className="text-gradient">real work</span>
           </h2>
           <p className="section-lead">
             Interior detail on a VW Golf GTI. Same angles, same car — dirt out,
@@ -24,8 +24,12 @@ export function GallerySection() {
           </p>
         </Reveal>
 
-        <Reveal className="gallery-tabs-wrap">
-          <div className="gallery-tabs" role="tablist" aria-label="Gallery views">
+        <Reveal className="gallery-tabs-wrap" delayMs={80}>
+          <div
+            className="gallery-tabs"
+            role="tablist"
+            aria-label="Gallery views"
+          >
             {galleryPairs.map((item, i) => (
               <button
                 key={item.id}
@@ -41,14 +45,14 @@ export function GallerySection() {
           </div>
         </Reveal>
 
-        <Reveal key={pair.id} className="ba-stage">
+        <Reveal key={pair.id} variant="blur" className="ba-stage">
           <div className="ba-meta">
             <span className="ba-vehicle">{pair.vehicle}</span>
             <span className="ba-area">{pair.area}</span>
           </div>
 
           <div className="ba-grid">
-            <figure className="ba-frame">
+            <figure className="ba-frame ba-frame-reveal">
               <span className="ba-badge before">Before</span>
               <Image
                 src={pair.before}
@@ -56,10 +60,11 @@ export function GallerySection() {
                 width={720}
                 height={900}
                 className="ba-image"
-                sizes="(max-width: 800px) 100vw, 50vw"
+                sizes="(max-width: 720px) 92vw, 45vw"
+                quality={72}
               />
             </figure>
-            <figure className="ba-frame">
+            <figure className="ba-frame ba-frame-reveal ba-frame-delay">
               <span className="ba-badge after">After</span>
               <Image
                 src={pair.after}
@@ -67,7 +72,8 @@ export function GallerySection() {
                 width={720}
                 height={900}
                 className="ba-image"
-                sizes="(max-width: 800px) 100vw, 50vw"
+                sizes="(max-width: 720px) 92vw, 45vw"
+                quality={72}
               />
             </figure>
           </div>
@@ -88,6 +94,8 @@ export function GallerySection() {
                 width={160}
                 height={120}
                 className="gallery-thumb-img"
+                sizes="160px"
+                quality={60}
               />
             </button>
           ))}

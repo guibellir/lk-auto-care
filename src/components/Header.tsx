@@ -5,15 +5,26 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { brand } from '@/data/brand'
+import { phoneLink } from '@/lib/contact'
+import { PhoneIcon } from '@/components/Icons'
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const pathname = usePathname()
   const isHome = pathname === '/'
+  const tel = phoneLink()
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
+    let ticking = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 12)
+        ticking = false
+      })
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -23,10 +34,36 @@ export function Header() {
     setMenuOpen(false)
   }, [pathname])
 
+  // iOS Safari: overflow:hidden alone does not lock body scroll
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    if (!menuOpen) return
+
+    const scrollY = window.scrollY
+    const { style } = document.body
+    const prev = {
+      position: style.position,
+      top: style.top,
+      left: style.left,
+      right: style.right,
+      overflow: style.overflow,
+      width: style.width,
+    }
+
+    style.position = 'fixed'
+    style.top = `-${scrollY}px`
+    style.left = '0'
+    style.right = '0'
+    style.overflow = 'hidden'
+    style.width = '100%'
+
     return () => {
-      document.body.style.overflow = ''
+      style.position = prev.position
+      style.top = prev.top
+      style.left = prev.left
+      style.right = prev.right
+      style.overflow = prev.overflow
+      style.width = prev.width
+      window.scrollTo(0, scrollY)
     }
   }, [menuOpen])
 
@@ -41,6 +78,8 @@ export function Header() {
     }
   }
 
+  const toggleMenu = () => setMenuOpen((v) => !v)
+
   return (
     <>
       <a className="skip-link" href="#main">
@@ -48,7 +87,7 @@ export function Header() {
       </a>
 
       <header
-        className={`header ${scrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''}`}
+        className={`header ${scrolled || menuOpen ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''}`}
       >
         <div className="container header-inner">
           <Link
@@ -58,11 +97,12 @@ export function Header() {
             aria-label={`${brand.name} — home`}
           >
             <Image
-              src="/images/logo.png"
+              src="/images/logo-256.png"
               alt=""
               className="logo-img"
               width={44}
               height={44}
+              sizes="44px"
               priority
             />
             <span className="logo-text">
@@ -94,36 +134,56 @@ export function Header() {
             className="menu-toggle"
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((v) => !v)}
+            aria-controls="mobile-nav"
+            onClick={toggleMenu}
           >
             <span />
             <span />
             <span />
           </button>
         </div>
+      </header>
 
-        <div className={`mobile-nav ${menuOpen ? 'open' : ''}`}>
-          <div className="container mobile-nav-inner">
-            <a href={sectionHref('#services')} onClick={closeMenu}>
-              Services
-            </a>
-            <a href={sectionHref('#process')} onClick={closeMenu}>
-              How it works
-            </a>
-            <a href={sectionHref('#areas')} onClick={closeMenu}>
-              Service areas
-            </a>
-            <Link href="/services" onClick={closeMenu}>
-              All services
-            </Link>
-            <Link href="/areas" onClick={closeMenu}>
-              Areas we serve
-            </Link>
-            <a href={sectionHref('#faq')} onClick={closeMenu}>
-              FAQ
-            </a>
+      {/*
+        Outside <header>: backdrop-filter / sticky on header create a
+        containing block that collapses position:fixed children on iOS Safari.
+      */}
+      <div
+        id="mobile-nav"
+        className={`mobile-nav ${menuOpen ? 'open' : ''}`}
+        aria-hidden={!menuOpen}
+      >
+        <div className="container mobile-nav-inner">
+          <a href={sectionHref('#services')} onClick={closeMenu}>
+            Services
+          </a>
+          <a href={sectionHref('#process')} onClick={closeMenu}>
+            How it works
+          </a>
+          <a href={sectionHref('#areas')} onClick={closeMenu}>
+            Service areas
+          </a>
+          <Link href="/services" onClick={closeMenu}>
+            All services
+          </Link>
+          <Link href="/areas" onClick={closeMenu}>
+            Areas we serve
+          </Link>
+          <a href={sectionHref('#faq')} onClick={closeMenu}>
+            FAQ
+          </a>
+          <a href={sectionHref('#contact')} onClick={closeMenu}>
+            Contact
+          </a>
+          <div className="mobile-nav-actions">
+            {tel ? (
+              <a className="btn btn-primary" href={tel} onClick={closeMenu}>
+                <PhoneIcon size={18} />
+                Call {brand.phoneDisplay || brand.phone}
+              </a>
+            ) : null}
             <a
-              className="btn btn-primary"
+              className={`btn ${tel ? 'btn-ghost' : 'btn-primary'}`}
               href={sectionHref('#contact')}
               onClick={closeMenu}
             >
@@ -131,7 +191,7 @@ export function Header() {
             </a>
           </div>
         </div>
-      </header>
+      </div>
     </>
   )
 }

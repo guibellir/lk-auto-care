@@ -15,16 +15,21 @@ export type RevealVariant =
   | 'right'
   | 'scale'
   | 'fade'
+  | 'blur'
+  | 'rise'
 
 type RevealProps = {
   children: ReactNode
   className?: string
   variant?: RevealVariant
+  /** Stagger index — multiplies base step (default 85ms) */
   delay?: number
   delayMs?: number
   as?: ElementType
   threshold?: number
   style?: CSSProperties
+  /** Extra class applied only when visible (for child stagger hooks) */
+  visibleClassName?: string
 }
 
 /** Scroll-triggered reveal animation wrapper. */
@@ -37,6 +42,7 @@ export function Reveal({
   as = 'div',
   threshold,
   style,
+  visibleClassName = '',
 }: RevealProps) {
   const { ref, visible } = useReveal<HTMLElement>({ threshold })
 
@@ -44,6 +50,7 @@ export function Reveal({
     'reveal',
     `reveal-${variant}`,
     visible ? 'is-visible' : '',
+    visible && visibleClassName ? visibleClassName : '',
     className,
   ]
     .filter(Boolean)
@@ -53,7 +60,7 @@ export function Reveal({
     ...style,
     ...(delay > 0 || delayMs > 0
       ? {
-          transitionDelay: `${delay * 70 + delayMs}ms`,
+          transitionDelay: `${delay * 85 + delayMs}ms`,
         }
       : undefined),
   }

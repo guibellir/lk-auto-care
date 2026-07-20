@@ -12,7 +12,12 @@ export function FaqList() {
       {faqItems.map((item, index) => {
         const open = openFaq === index
         return (
-          <Reveal key={item.question} delay={index} className="faq-item-wrap">
+          <Reveal
+            key={item.question}
+            delay={index}
+            variant="up"
+            className="faq-item-wrap"
+          >
             <div className={`faq-item ${open ? 'open' : ''}`}>
               <button
                 type="button"
@@ -25,7 +30,10 @@ export function FaqList() {
                   {open ? '−' : '+'}
                 </span>
               </button>
-              <div className="faq-a" hidden={!open}>
+              <div
+                className={`faq-a ${open ? 'open' : ''}`}
+                hidden={!open}
+              >
                 <p>{item.answer}</p>
               </div>
             </div>

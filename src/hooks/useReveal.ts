@@ -12,8 +12,12 @@ type UseRevealOptions = {
 export function useReveal<T extends HTMLElement = HTMLDivElement>(
   options: UseRevealOptions = {},
 ) {
-  const { threshold = 0.12, rootMargin = '0px 0px -8% 0px', once = true } =
-    options
+  const {
+    threshold = 0.12,
+    // Trigger a bit before the element hits the middle of the viewport
+    rootMargin = '0px 0px -10% 0px',
+    once = true,
+  } = options
   const ref = useRef<T | null>(null)
   const [visible, setVisible] = useState(false)
 
@@ -29,6 +33,17 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(
       return
     }
 
+    // Mobile: fire earlier so motion finishes while still in view
+    let rootMarginLocal = rootMargin
+    let thresholdLocal = threshold
+    if (
+      typeof window !== 'undefined' &&
+      window.matchMedia('(max-width: 768px)').matches
+    ) {
+      rootMarginLocal = '0px 0px -6% 0px'
+      thresholdLocal = Math.min(threshold, 0.08)
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -38,7 +53,7 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(
           setVisible(false)
         }
       },
-      { threshold, rootMargin },
+      { threshold: thresholdLocal, rootMargin: rootMarginLocal },
     )
 
     observer.observe(el)
