@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { brand, getSiteUrl, services } from '@/data/brand'
 import { Reveal } from '@/components/Reveal'
 import { JsonLd } from '@/components/JsonLd'
-import { ArrowRightIcon, CheckIcon, serviceIcon } from '@/components/Icons'
+import { ArrowRightIcon } from '@/components/Icons'
 
 const site = getSiteUrl()
 
@@ -46,44 +46,40 @@ export default function ServicesPage() {
             <Reveal>
               <div className="section-label">Services</div>
               <h1 className="page-title">
-                Premium services for{' '}
-                <span className="text-gradient">every mile</span>
+                Scope of work
               </h1>
               <p className="section-lead">
                 Five focused offerings from {brand.name} in {brand.city},{' '}
-                {brand.stateCode} — appearance, light, sound, and response under
-                one premium standard.
+                {brand.stateCode}. Clear descriptions — no filler packages.
               </p>
             </Reveal>
           </div>
         </section>
 
         <section className="section page-services">
-          <div className="container service-detail-list">
-            {services.map((service, index) => (
-              <Reveal key={service.id} delay={index} className="service-detail">
-                <article>
-                  <div className="service-detail-icon">
-                    {serviceIcon(service.icon, 32)}
-                  </div>
-                  <div className="service-detail-body">
-                    <h2>{service.name}</h2>
-                    <p className="service-detail-lead">
-                      {service.longDescription}
-                    </p>
-                    <ul className="service-highlights">
-                      {service.highlights.map((h) => (
-                        <li key={h}>
-                          <CheckIcon size={14} />
-                          {h}
-                        </li>
-                      ))}
-                    </ul>
-                    <p className="service-seo-line">{service.seoKeywords}</p>
-                  </div>
-                </article>
-              </Reveal>
-            ))}
+          <div className="container">
+            <div className="service-index">
+              {services.map((service, index) => (
+                <Reveal key={service.id} delay={index} className="service-row-wrap">
+                  <article className="service-detail-row">
+                    <span className="service-index-num" aria-hidden="true">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <div className="service-detail-body">
+                      <h2>{service.name}</h2>
+                      <p className="service-detail-lead">
+                        {service.longDescription}
+                      </p>
+                      <ul className="service-row-points service-detail-points">
+                        {service.highlights.map((h) => (
+                          <li key={h}>{h}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -94,7 +90,7 @@ export default function ServicesPage() {
                 <h2>Ready to book?</h2>
                 <p>
                   Tell us your vehicle and city — we&apos;ll recommend the right
-                  service path.
+                  path.
                 </p>
               </div>
               <Link className="btn btn-primary btn-lg" href="/#contact">
