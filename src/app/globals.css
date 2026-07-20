@@ -625,7 +625,8 @@ ul {
 .sign-scene {
   position: relative;
   width: min(420px, 100%);
-  padding: 1.5rem 1.15rem 1.15rem;
+  /* Balanced inset so the logo sits optically centered in the wall */
+  padding: 2rem 1.15rem 1.15rem;
 }
 
 .sign-scene-glow {
@@ -696,7 +697,9 @@ ul {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 1.15rem;
+  /* Nudge whole fixture slightly down so the disc reads centered */
+  padding-top: 0.35rem;
 }
 
 .sign-bracket {
@@ -704,12 +707,12 @@ ul {
   gap: 4.5rem;
   width: 100%;
   justify-content: center;
-  margin-bottom: -0.35rem;
+  margin-bottom: 0.15rem;
 }
 
 .sign-bracket span {
   width: 10px;
-  height: 22px;
+  height: 18px;
   border-radius: 2px 2px 4px 4px;
   background: linear-gradient(180deg, #3a424f, #1a1f28);
   box-shadow:
@@ -723,6 +726,8 @@ ul {
   aspect-ratio: 1;
   display: grid;
   place-items: center;
+  /* Optical center: logo art is slightly top-weighted inside the circle */
+  transform: translateY(6px);
 }
 
 .sign-disc-ring {
