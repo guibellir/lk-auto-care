@@ -24,6 +24,10 @@
 *.pem
 *.local
 
+# Raw client photo drops (web-optimized copies live in public/images)
+Fotos/
+Fotos /
+
 # debug
 npm-debug.log*
 yarn-debug.log*

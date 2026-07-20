@@ -10,7 +10,13 @@ import {
 import { Reveal } from '@/components/Reveal'
 import { ContactForm } from '@/components/ContactForm'
 import { FaqList } from '@/components/FaqList'
-import { ArrowRightIcon, MapPinIcon } from '@/components/Icons'
+import { GallerySection } from '@/components/GallerySection'
+import {
+  ArrowRightIcon,
+  CheckIcon,
+  MapPinIcon,
+  serviceIcon,
+} from '@/components/Icons'
 import { emailLink } from '@/lib/contact'
 
 export function HomeContent() {
@@ -21,30 +27,27 @@ export function HomeContent() {
       {/* HERO */}
       <section className="hero" id="topo">
         <div className="hero-bg" aria-hidden="true">
-          <div className="hero-wash" />
+          <div className="hero-orb hero-orb-cyan" />
+          <div className="hero-orb hero-orb-orange" />
           <div className="hero-grid-lines" />
+          <div className="hero-noise" />
         </div>
 
         <div className="container hero-grid">
           <div className="hero-copy">
-            <p className="hero-kicker hero-reveal">
-              {brand.city}, {brand.stateCode}
-              <span className="hero-kicker-sep" aria-hidden="true" />
-              Est. {brand.established}
-              <span className="hero-kicker-sep" aria-hidden="true" />
-              Greater Boston
-            </p>
+            <div className="hero-badge hero-reveal">
+              <span className="badge-dot" />
+              Based in {brand.city}, {brand.stateCode} · Est. {brand.established}
+            </div>
             <h1 className="hero-reveal hero-reveal-delay-1">
-              Auto care built
+              Premium auto care
               <br />
-              for drivers who
-              <br />
-              <em>notice the details</em>
+              with a <span className="text-gradient">neon finish</span>
             </h1>
             <p className="hero-text hero-reveal hero-reveal-delay-2">
-              Detailing, paint correction, LED headlights, exhaust work, and
-              engine remap — from our shop in {brand.city} to clients across
-              the metro.
+              Interior & exterior detailing, paint polishing, LED headlights,
+              exhaust upgrades, and engine remap — crafted for drivers across
+              Greater Boston who want results that look as good as they feel.
             </p>
             <div className="hero-actions hero-reveal hero-reveal-delay-3">
               <a className="btn btn-primary btn-lg" href="#contact">
@@ -52,59 +55,35 @@ export function HomeContent() {
                 <ArrowRightIcon size={18} />
               </a>
               <a className="btn btn-ghost btn-lg" href="#services">
-                See services
+                Explore services
               </a>
             </div>
-          </div>
-
-          <div className="hero-visual hero-reveal-visual" aria-hidden="false">
-            <div className="signboard">
-              <div className="signboard-rail">
-                <span>LK</span>
-                <span>PREMIUM</span>
-                <span>AUTO CARE</span>
-              </div>
-
-              <div className="signboard-face">
-                <div className="signboard-brick" aria-hidden="true" />
-                <div className="signboard-mount">
-                  <Image
-                    src="/images/logo.png"
-                    alt="LK Auto Care neon sign — washing, detailing, premium auto care since 2022"
-                    className="signboard-logo"
-                    width={420}
-                    height={420}
-                    priority
-                  />
+            <div className="hero-stats hero-reveal hero-reveal-delay-4">
+              {stats.map((s) => (
+                <div className="stat" key={s.label}>
+                  <strong>{s.value}</strong>
+                  <span>{s.label}</span>
                 </div>
-                <div className="signboard-caption">
-                  <span>Washing · Detailing</span>
-                  <span>Boston</span>
-                </div>
-              </div>
-
-              <div className="signboard-meta">
-                {stats.map((s) => (
-                  <div key={s.label} className="signboard-stat">
-                    <strong>{s.value}</strong>
-                    <span>{s.label}</span>
-                  </div>
-                ))}
-              </div>
+              ))}
             </div>
           </div>
-        </div>
 
-        <div className="container hero-baseline hero-reveal hero-reveal-delay-4">
-          <span>Interior & exterior detail</span>
-          <span className="baseline-dot" />
-          <span>Paint polishing</span>
-          <span className="baseline-dot" />
-          <span>LED headlights</span>
-          <span className="baseline-dot" />
-          <span>Exhaust</span>
-          <span className="baseline-dot" />
-          <span>Engine remap</span>
+          <div className="hero-visual hero-reveal-visual">
+            <div className="hero-logo-ring">
+              <div className="hero-logo-glow" />
+              <Image
+                src="/images/logo.png"
+                alt="LK Auto Care — washing, detailing, premium auto care since 2022"
+                className="hero-logo"
+                width={360}
+                height={360}
+                priority
+              />
+            </div>
+            <div className="floating-chip chip-1">Interior · Exterior</div>
+            <div className="floating-chip chip-2">Everett · MA</div>
+            <div className="floating-chip chip-3">Est. {brand.established}</div>
+          </div>
         </div>
       </section>
 
@@ -114,6 +93,7 @@ export function HomeContent() {
           <div className="marquee-track">
             {marqueeCities.map((area, i) => (
               <span className="marquee-item" key={`${area.name}-${i}`}>
+                <MapPinIcon size={14} />
                 {area.name}
                 {area.primary ? ' · HQ' : ''}
               </span>
@@ -122,49 +102,49 @@ export function HomeContent() {
         </div>
       </section>
 
-      {/* SERVICES — editorial list, not template cards */}
+      {/* SERVICES */}
       <section className="section services" id="services">
         <div className="container">
-          <div className="services-head">
-            <Reveal>
-              <div className="section-label">Services</div>
-              <h2 className="section-title">What we handle</h2>
-            </Reveal>
-            <Reveal delay={1}>
-              <p className="section-lead services-lead">
-                Five core offerings. Clear scope. No package theater — we match
-                the work to the vehicle and the finish you want.
-              </p>
-            </Reveal>
-          </div>
+          <Reveal className="section-header">
+            <div className="section-label">What we do</div>
+            <h2 className="section-title">
+              Full-spectrum auto care,{' '}
+              <span className="text-gradient-orange">one standard</span>
+            </h2>
+            <p className="section-lead">
+              From showroom-level detailing to performance upgrades — every
+              service is built around precision, clean finish, and long-term
+              pride of ownership.
+            </p>
+          </Reveal>
 
-          <div className="service-index">
+          <div className="service-bento">
             {services.map((service, index) => (
-              <Reveal key={service.id} delay={index} className="service-row-wrap">
-                <article className="service-row">
-                  <span className="service-index-num" aria-hidden="true">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <div className="service-row-body">
-                    <h3>{service.name}</h3>
-                    <p>{service.description}</p>
-                  </div>
-                  <ul className="service-row-points">
-                    {service.highlights.slice(0, 2).map((h) => (
-                      <li key={h}>{h}</li>
+              <Reveal
+                key={service.id}
+                variant="up"
+                delay={index}
+                className={`service-card service-card-${index + 1}`}
+              >
+                <article>
+                  <div className="service-icon">{serviceIcon(service.icon)}</div>
+                  <h3>{service.name}</h3>
+                  <p>{service.description}</p>
+                  <ul className="service-highlights">
+                    {service.highlights.slice(0, 3).map((h) => (
+                      <li key={h}>
+                        <CheckIcon size={14} />
+                        {h}
+                      </li>
                     ))}
                   </ul>
+                  <Link className="service-link" href="/services">
+                    Learn more <ArrowRightIcon size={16} />
+                  </Link>
                 </article>
               </Reveal>
             ))}
           </div>
-
-          <Reveal className="services-footer">
-            <Link className="text-link" href="/services">
-              Full service details
-              <ArrowRightIcon size={16} />
-            </Link>
-          </Reveal>
         </div>
       </section>
 
@@ -172,46 +152,54 @@ export function HomeContent() {
       <section className="section why" id="about">
         <div className="container why-grid">
           <Reveal variant="left">
-            <div className="section-label">About</div>
+            <div className="section-label">Why LK</div>
             <h2 className="section-title">
-              Shop-level standards.
+              Modern craft.
               <br />
-              Metro coverage.
+              <span className="text-gradient">Zero shortcuts.</span>
             </h2>
             <p className="section-lead">
-              {brand.name} is based in {brand.city}, Massachusetts. We focus on
-              finish quality — cabin, paint, lighting, exhaust, and remap —
-              without the generic “full detail package” noise.
+              {brand.name} brings a neon-era standard to auto aesthetics and
+              light performance work in {brand.city}. Whether you need a deep
+              detail before a weekend drive or a sharper night-time beam
+              pattern, we treat every vehicle like it has somewhere to be seen.
             </p>
-            <dl className="why-facts">
-              <div>
-                <dt>Home base</dt>
-                <dd>
-                  {brand.city}, {brand.stateCode}
-                </dd>
-              </div>
-              <div>
-                <dt>Since</dt>
-                <dd>{brand.established}</dd>
-              </div>
-              <div>
-                <dt>Focus</dt>
-                <dd>Detail · Polish · Upgrades</dd>
-              </div>
-            </dl>
+            <ul className="why-list">
+              <li>
+                <CheckIcon /> Premium interior & exterior detailing
+              </li>
+              <li>
+                <CheckIcon /> Paint correction & polishing
+              </li>
+              <li>
+                <CheckIcon /> LED, exhaust & remap upgrades
+              </li>
+              <li>
+                <CheckIcon /> Greater Boston coverage from Everett
+              </li>
+            </ul>
           </Reveal>
 
-          <Reveal variant="right">
-            <blockquote className="why-quote">
+          <Reveal variant="right" className="why-panel">
+            <div className="glass-panel">
+              <div className="glass-stat">
+                <strong>ESTD {brand.established}</strong>
+                <span>Built for Boston-area drivers</span>
+              </div>
+              <div className="glass-divider" />
               <p>
-                Clean cabins. Honest paint work. Upgrades that fit the car —
-                not the catalog.
+                “Washing · Detailing · Premium Auto Care” is more than a slogan
+                — it is the product: clean cabins, crisp paint, brighter lights,
+                confident sound, and responsive power.
               </p>
-              <footer>
-                <span>{brand.legalName}</span>
-                <span>Everett · Greater Boston</span>
-              </footer>
-            </blockquote>
+              <div className="glass-tags">
+                <span>Detail</span>
+                <span>Polish</span>
+                <span>LED</span>
+                <span>Exhaust</span>
+                <span>Remap</span>
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -219,21 +207,19 @@ export function HomeContent() {
       {/* PROCESS */}
       <section className="section process" id="process">
         <div className="container">
-          <Reveal className="section-header">
-            <div className="section-label">Process</div>
-            <h2 className="section-title">How booking works</h2>
+          <Reveal className="section-header center">
+            <div className="section-label">How it works</div>
+            <h2 className="section-title">Book in three simple steps</h2>
           </Reveal>
-          <ol className="process-list">
+          <div className="process-grid">
             {processSteps.map((step, i) => (
-              <Reveal key={step.step} delay={i} as="li" className="process-step">
-                <span className="process-step-num">{step.step}</span>
-                <div>
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
-                </div>
+              <Reveal key={step.step} delay={i} className="process-card">
+                <span className="process-num">{step.step}</span>
+                <h3>{step.title}</h3>
+                <p>{step.description}</p>
               </Reveal>
             ))}
-          </ol>
+          </div>
         </div>
       </section>
 
@@ -241,27 +227,26 @@ export function HomeContent() {
       <section className="section areas" id="areas">
         <div className="container">
           <Reveal className="section-header">
-            <div className="section-label">Coverage</div>
+            <div className="section-label">Service areas</div>
             <h2 className="section-title">
-              Based in Everett, serving the metro
+              Based in Everett —{' '}
+              <span className="text-gradient">serving the metro</span>
             </h2>
             <p className="section-lead">
-              Primary area around {brand.city}. Nearby cities listed below —
-              ask if yours isn&apos;t here yet.
+              Proudly rooted in {brand.city}, {brand.stateCode}, with clients
+              across neighboring cities. More towns can be added as we grow.
             </p>
           </Reveal>
 
-          <div className="areas-list">
+          <div className="areas-grid">
             {serviceAreas.map((area, i) => (
-              <Reveal key={area.name} delay={i % 6} className="area-item-wrap">
-                <div className={`area-item ${area.primary ? 'primary' : ''}`}>
-                  <MapPinIcon size={14} />
-                  <span>
-                    {area.name}
-                    {area.primary ? (
-                      <em className="area-hq"> HQ</em>
-                    ) : null}
-                  </span>
+              <Reveal key={area.name} delay={i % 6} className="area-chip-wrap">
+                <div className={`area-chip ${area.primary ? 'primary' : ''}`}>
+                  <MapPinIcon size={16} />
+                  <span>{area.name}</span>
+                  {area.primary ? (
+                    <span className="area-badge">Home base</span>
+                  ) : null}
                 </div>
               </Reveal>
             ))}
@@ -270,53 +255,27 @@ export function HomeContent() {
           <Reveal className="areas-cta">
             <p>
               Don&apos;t see your city?{' '}
-              <a href="#contact">Ask — we may already cover it.</a>
+              <a href="#contact">Ask us — we may already cover it.</a>
             </p>
-            <Link href="/areas" className="text-link">
-              All service areas
+            <Link href="/areas" className="btn btn-ghost">
+              View all areas
               <ArrowRightIcon size={16} />
             </Link>
           </Reveal>
         </div>
       </section>
 
-      {/* GALLERY PLACEHOLDER */}
-      <section className="section gallery" id="gallery">
-        <div className="container">
-          <Reveal className="section-header">
-            <div className="section-label">Work</div>
-            <h2 className="section-title">Before & after</h2>
-            <p className="section-lead">
-              Photo set coming soon — real vehicles from detailing, polish, and
-              upgrade jobs.
-            </p>
-          </Reveal>
-          <div className="gallery-placeholder">
-            {[
-              'Interior detail',
-              'Paint correction',
-              'Lighting / exhaust',
-            ].map((label, n) => (
-              <Reveal key={label} delay={n} className="gallery-slot">
-                <div className="gallery-card">
-                  <span className="gallery-label">{label}</span>
-                  <span className="gallery-soon">Photos soon</span>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <GallerySection />
 
       {/* FAQ */}
       <section className="section faq" id="faq">
         <div className="container faq-layout">
           <Reveal>
             <div className="section-label">FAQ</div>
-            <h2 className="section-title">Common questions</h2>
+            <h2 className="section-title">Questions, answered</h2>
             <p className="section-lead">
-              Location, services, and booking for drivers near {brand.city},{' '}
-              {brand.stateCode}.
+              Local SEO-friendly answers for drivers searching auto detailing
+              and upgrades near {brand.city}, {brand.stateCode}.
             </p>
           </Reveal>
 
@@ -329,10 +288,12 @@ export function HomeContent() {
         <div className="container contact-grid">
           <Reveal>
             <div className="section-label">Contact</div>
-            <h2 className="section-title">Request a quote</h2>
+            <h2 className="section-title">
+              Ready for a <span className="text-gradient">premium finish?</span>
+            </h2>
             <p className="section-lead">
-              Vehicle, service, and city — we&apos;ll reply with availability
-              and a clear recommendation.
+              Tell us about your vehicle and city. We&apos;ll get back with
+              availability and a clear recommendation.
             </p>
             <div className="contact-points">
               <div>
@@ -351,7 +312,7 @@ export function HomeContent() {
             </div>
           </Reveal>
 
-          <Reveal className="contact-form-wrap">
+          <Reveal variant="scale" className="contact-form-wrap">
             <ContactForm />
           </Reveal>
         </div>
