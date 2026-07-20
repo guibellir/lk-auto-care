@@ -1,14 +1,25 @@
-import { Link } from 'react-router-dom'
-import { brand, serviceAreas } from '../data/brand'
-import { Seo, JsonLd } from '../components/Seo'
-import { Reveal } from '../components/Reveal'
-import { ArrowRightIcon, MapPinIcon } from '../components/Icons'
-import { getSiteUrl } from '../data/brand'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { brand, getSiteUrl, serviceAreas } from '@/data/brand'
+import { Reveal } from '@/components/Reveal'
+import { JsonLd } from '@/components/JsonLd'
+import { ArrowRightIcon, MapPinIcon } from '@/components/Icons'
 
-export function AreasPage() {
-  const site = getSiteUrl()
-  const cityList = serviceAreas.map((a) => a.name).join(', ')
+const site = getSiteUrl()
+const cityList = serviceAreas.map((a) => a.name).join(', ')
 
+export const metadata: Metadata = {
+  title: 'Service Areas — Everett & Greater Boston',
+  description: `LK Auto Care is based in Everett, MA and serves ${cityList}. Premium auto detailing, polishing, LED headlights, exhaust & engine remap near you.`,
+  alternates: { canonical: '/areas' },
+  openGraph: {
+    title: 'Service Areas | LK Auto Care',
+    description: `Based in Everett, MA — serving ${cityList}.`,
+    url: `${site}/areas`,
+  },
+}
+
+export default function AreasPage() {
   const structured = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
@@ -27,21 +38,14 @@ export function AreasPage() {
 
   return (
     <>
-      <Seo
-        title="Service Areas | LK Auto Care — Everett & Greater Boston"
-        description={`LK Auto Care is based in Everett, MA and serves ${cityList}. Premium auto detailing, polishing, LED headlights, exhaust & engine remap near you.`}
-        path="/areas"
-      />
       <JsonLd data={structured} />
-
       <main id="main" className="page-main">
         <section className="page-hero">
           <div className="container">
             <Reveal>
               <div className="section-label">Areas we serve</div>
               <h1 className="page-title">
-                Everett base.{' '}
-                <span className="text-gradient">Metro reach.</span>
+                Everett base. <span className="text-gradient">Metro reach.</span>
               </h1>
               <p className="section-lead">
                 {brand.name} is based in {brand.city}, Massachusetts, and works
@@ -85,7 +89,7 @@ export function AreasPage() {
                 {brand.city}, we are built for Boston-area roads and New England
                 weather.
               </p>
-              <Link className="btn btn-primary" to="/#contact">
+              <Link className="btn btn-primary" href="/#contact">
                 Request service in your city
                 <ArrowRightIcon size={16} />
               </Link>

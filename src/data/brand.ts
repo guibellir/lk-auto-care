@@ -6,6 +6,8 @@ export const brand = {
   legalName: 'LK Premium Auto Care',
   tagline: 'Premium Auto Care',
   slogan: 'Shine that stops traffic',
+  description:
+    'LK Auto Care — premium interior & exterior detailing, polishing, LED headlights, exhaust replacement, and engine remap in Everett, MA. Serving Medford, Melrose, Boston, Brookline, Somerville, Newton, Watertown & more.',
   established: 2022,
   city: 'Everett',
   state: 'Massachusetts',
@@ -22,12 +24,19 @@ export const brand = {
   /** WhatsApp digits only with country code, e.g. 17815551234 — leave empty until set */
   whatsapp: '' as string,
   priceRange: '$$',
+  locale: 'en_US',
+  language: 'en-US',
 }
 
 export function getSiteUrl(): string {
-  const fromEnv = import.meta.env.VITE_SITE_URL as string | undefined
+  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL
   if (fromEnv) return fromEnv.replace(/\/$/, '')
-  if (typeof window !== 'undefined') return window.location.origin
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL.replace(/^https?:\/\//, '')}`
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL.replace(/^https?:\/\//, '')}`
+  }
   return 'https://lkautocare.com'
 }
 
@@ -211,3 +220,19 @@ export const processSteps = [
       'Precision work with premium products and careful craftsmanship from cabin to paint to performance.',
   },
 ] as const
+
+export const siteKeywords = [
+  'auto detailing Everett MA',
+  'car detailing Greater Boston',
+  'paint correction Boston',
+  'LED headlights Everett',
+  'exhaust replacement Medford',
+  'engine remap MA',
+  'car polish Melrose',
+  'premium auto care Boston',
+  'LK Auto Care',
+  'detailing Somerville',
+  'Brookline car detail',
+  'Newton auto detail',
+  'Watertown detailing',
+]

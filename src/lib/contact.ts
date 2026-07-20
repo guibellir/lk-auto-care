@@ -1,4 +1,4 @@
-import { brand } from '../data/brand'
+import { brand } from '@/data/brand'
 
 export function phoneLink(): string | null {
   if (!brand.phone) return null
@@ -14,8 +14,7 @@ export function whatsappLink(message?: string): string | null {
 }
 
 export function emailLink(subject?: string): string {
-  const sub =
-    subject ?? `Service inquiry — ${brand.name}`
+  const sub = subject ?? `Service inquiry — ${brand.name}`
   return `mailto:${brand.email}?subject=${encodeURIComponent(sub)}`
 }
 

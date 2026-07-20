@@ -1,21 +1,24 @@
 # LK Auto Care
 
-Premium auto detailing and performance-minded upgrades website for **LK Auto Care** — based in **Everett, MA**, serving Greater Boston.
+Premium auto detailing website for **LK Auto Care** — based in **Everett, MA**, serving Greater Boston.
+
+Built with **Next.js** (App Router) + React 19 + TypeScript.
 
 ## Stack
 
-- Vite + React 19 + TypeScript
-- React Router
-- SEO: meta tags, Open Graph, JSON-LD (LocalBusiness), sitemap, robots
-- Vercel-ready (`vercel.json`)
+- Next.js 15 (App Router, SSR/SSG for SEO)
+- React 19 + TypeScript
+- next/font (Inter + Space Grotesk)
+- JSON-LD LocalBusiness, metadata API, `sitemap.ts`, `robots.ts`
+- Vercel-ready
 
 ## Services
 
-- Interior & exterior auto detailing  
-- Paint correction & polishing  
-- LED headlight conversion  
-- Exhaust system replacement  
-- Engine remap / ECU tuning  
+- Interior & exterior auto detailing
+- Paint correction & polishing
+- LED headlight conversion
+- Exhaust system replacement
+- Engine remap / ECU tuning
 
 ## Local development
 
@@ -24,29 +27,27 @@ npm install
 npm run dev
 ```
 
+Open [http://localhost:3000](http://localhost:3000).
+
 ```bash
 npm run build
-npm run preview
+npm start
 ```
 
 ## Environment
 
-Copy `.env.example` → `.env` (optional):
-
-```
-VITE_SITE_URL=https://your-domain.com
+```bash
+cp .env.example .env.local
 ```
 
-On Vercel, production URL is resolved automatically if `VITE_SITE_URL` is not set.
+```
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+```
 
 ## Brand / contact
 
-Edit `src/data/brand.ts` for:
-
-- Phone / WhatsApp / Instagram / email  
-- Service areas (add cities anytime)  
-- FAQ and service copy  
+Edit `src/data/brand.ts` for phone, WhatsApp, Instagram, email, service areas, and FAQ.
 
 ## Logo
 
-Place brand assets in `public/images/logo.png`. Current logo is the neon sign mark (brick backdrop). A transparent PNG can replace it later without code changes.
+`public/images/logo.png` — neon mark. Replace with a transparent PNG anytime.

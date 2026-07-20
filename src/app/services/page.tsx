@@ -1,13 +1,26 @@
-import { Link } from 'react-router-dom'
-import { brand, services } from '../data/brand'
-import { Seo, JsonLd } from '../components/Seo'
-import { Reveal } from '../components/Reveal'
-import { ArrowRightIcon, CheckIcon, serviceIcon } from '../components/Icons'
-import { getSiteUrl } from '../data/brand'
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { brand, getSiteUrl, services } from '@/data/brand'
+import { Reveal } from '@/components/Reveal'
+import { JsonLd } from '@/components/JsonLd'
+import { ArrowRightIcon, CheckIcon, serviceIcon } from '@/components/Icons'
 
-export function ServicesPage() {
-  const site = getSiteUrl()
+const site = getSiteUrl()
 
+export const metadata: Metadata = {
+  title: 'Services — Detailing, Polish, LED, Exhaust, Remap',
+  description:
+    'Explore LK Auto Care services in Everett, MA: interior & exterior detailing, paint polishing, LED headlight conversion, exhaust replacement, and engine remap for Greater Boston.',
+  alternates: { canonical: '/services' },
+  openGraph: {
+    title: 'Services | LK Auto Care',
+    description:
+      'Detailing, polishing, LED headlights, exhaust replacement, and engine remap in Everett, MA.',
+    url: `${site}/services`,
+  },
+}
+
+export default function ServicesPage() {
   const structured = {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -26,13 +39,7 @@ export function ServicesPage() {
 
   return (
     <>
-      <Seo
-        title="Services | LK Auto Care — Detailing, Polish, LED, Exhaust, Remap"
-        description="Explore LK Auto Care services in Everett, MA: interior & exterior detailing, paint polishing, LED headlight conversion, exhaust replacement, and engine remap for Greater Boston."
-        path="/services"
-      />
       <JsonLd data={structured} />
-
       <main id="main" className="page-main">
         <section className="page-hero">
           <div className="container">
@@ -90,7 +97,7 @@ export function ServicesPage() {
                   service path.
                 </p>
               </div>
-              <Link className="btn btn-primary btn-lg" to="/#contact">
+              <Link className="btn btn-primary btn-lg" href="/#contact">
                 Contact us
                 <ArrowRightIcon size={18} />
               </Link>

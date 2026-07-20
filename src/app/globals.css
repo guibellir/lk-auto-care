@@ -34,8 +34,8 @@
   --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
   --header-h: 72px;
 
-  --font-display: 'Space Grotesk', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-space), 'Space Grotesk', system-ui, sans-serif;
+  --font-body: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
 
   font-family: var(--font-body);
   color: var(--text);

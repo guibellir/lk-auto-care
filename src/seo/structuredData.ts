@@ -4,7 +4,7 @@ import {
   getSiteUrl,
   serviceAreas,
   services,
-} from '../data/brand'
+} from '@/data/brand'
 
 /** JSON-LD for AutoRepair / LocalBusiness + FAQ + Services (local SEO) */
 export function buildStructuredData() {
@@ -16,8 +16,7 @@ export function buildStructuredData() {
     '@id': `${site}/#business`,
     name: brand.name,
     alternateName: brand.legalName,
-    description:
-      'Premium auto detailing, polishing, LED headlights, exhaust replacement, and engine remap in Everett, MA — serving Greater Boston including Medford, Melrose, Brookline, Somerville, Newton, and Watertown.',
+    description: brand.description,
     url: site,
     image: `${site}/images/logo.png`,
     logo: `${site}/images/logo.png`,
@@ -33,7 +32,6 @@ export function buildStructuredData() {
     },
     geo: {
       '@type': 'GeoCoordinates',
-      // Everett, MA approximate — refine when street address is available
       latitude: 42.4084,
       longitude: -71.0537,
     },
@@ -67,7 +65,7 @@ export function buildStructuredData() {
     name: `${brand.name} — Premium Auto Detailing in ${brand.city}, ${brand.stateCode}`,
     description: brand.slogan,
     publisher: { '@id': `${site}/#business` },
-    inLanguage: 'en-US',
+    inLanguage: brand.language,
   }
 
   const faqPage = {

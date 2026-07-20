@@ -1,6 +1,0 @@
-# https://www.robotstxt.org/robotstxt.html
-User-agent: *
-Allow: /
-
-# Update sitemap URL after deploy with the real domain
-Sitemap: https://lkautocare.com/sitemap.xml

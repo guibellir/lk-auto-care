@@ -1,10 +1,12 @@
+'use client'
+
 import {
   createElement,
   type CSSProperties,
   type ElementType,
   type ReactNode,
 } from 'react'
-import { useReveal } from '../hooks/useReveal'
+import { useReveal } from '@/hooks/useReveal'
 
 export type RevealVariant =
   | 'up'
