@@ -57,7 +57,6 @@ export function GallerySection() {
                 height={900}
                 className="ba-image"
                 sizes="(max-width: 800px) 100vw, 50vw"
-                quality={78}
               />
             </figure>
             <figure className="ba-frame">
@@ -69,7 +68,6 @@ export function GallerySection() {
                 height={900}
                 className="ba-image"
                 sizes="(max-width: 800px) 100vw, 50vw"
-                quality={78}
               />
             </figure>
           </div>
