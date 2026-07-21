@@ -4,6 +4,12 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   reactStrictMode: true,
+  // Allow Cloudflare Tunnel + LAN preview of `next dev` assets
+  allowedDevOrigins: [
+    '*.trycloudflare.com',
+    '192.168.1.241',
+    'localhost',
+  ],
   // Fail the Vercel build if ESLint / type issues slip in
   eslint: {
     ignoreDuringBuilds: false,
