@@ -28,15 +28,28 @@ export const brand = {
   language: 'en-US',
 }
 
+/** Canonical site origin for metadata, sitemap, and JSON-LD (no trailing slash). */
 export function getSiteUrl(): string {
-  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL
+  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL?.trim()
   if (fromEnv) return fromEnv.replace(/\/$/, '')
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+
+  // Vercel production: stable project host (not the per-deploy preview host)
+  if (
+    process.env.VERCEL_ENV === 'production' &&
+    process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ) {
     return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL.replace(/^https?:\/\//, '')}`
   }
+
+  // Preview / branch deploys
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL.replace(/^https?:\/\//, '')}`
   }
+
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL.replace(/^https?:\/\//, '')}`
+  }
+
   return 'https://lkautocare.com'
 }
 

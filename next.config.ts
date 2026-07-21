@@ -4,6 +4,13 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   compress: true,
   reactStrictMode: true,
+  // Fail the Vercel build if ESLint / type issues slip in
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
+  typescript: {
+    ignoreBuildErrors: false,
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     // Favor common iPhone CSS widths for srcset selection
