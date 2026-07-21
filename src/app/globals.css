@@ -66,6 +66,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  background: var(--bg);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -82,6 +83,83 @@ body {
   /* Leave room for fixed mobile CTA + home indicator */
   padding-bottom: var(--mobile-cta-h);
   -webkit-tap-highlight-color: transparent;
+  /* Stacking context so z-index:-1 stays above the solid bg, under content */
+  isolation: isolate;
+}
+
+/* Soft Challenger photo — fixed + blurred site atmosphere */
+.site-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.site-bg-image {
+  position: absolute;
+  /* Bleed past edges so blur doesn't show hard crop */
+  inset: -32px;
+  background-color: #05070c;
+  background-image: url('/images/bg-challenger.jpg');
+  background-size: cover;
+  background-position: center 38%;
+  background-repeat: no-repeat;
+  /* Soft fog, but car still clearly readable */
+  filter: blur(4px) saturate(1.15) brightness(1.05) contrast(1.08);
+  transform: scale(1.05);
+  opacity: 0.88;
+}
+
+.site-bg-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    /* Light center wash — car stays visible */
+    radial-gradient(
+      ellipse 95% 75% at 50% 34%,
+      rgba(5, 7, 12, 0.02) 0%,
+      rgba(5, 7, 12, 0.22) 50%,
+      rgba(5, 7, 12, 0.55) 100%
+    ),
+    /* Slightly darker only toward the bottom for later sections */
+    linear-gradient(
+      180deg,
+      rgba(5, 7, 12, 0.12) 0%,
+      rgba(5, 7, 12, 0.22) 42%,
+      rgba(5, 7, 12, 0.48) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0, 229, 255, 0.05) 0%,
+      transparent 38%,
+      transparent 62%,
+      rgba(255, 106, 0, 0.04) 100%
+    );
+}
+
+@media (max-width: 720px) {
+  .site-bg-image {
+    background-position: 58% 40%;
+    filter: blur(3px) saturate(1.1) brightness(1) contrast(1.05);
+    opacity: 0.82;
+  }
+
+  .site-bg-veil {
+    background:
+      radial-gradient(
+        ellipse 100% 80% at 55% 36%,
+        rgba(5, 7, 12, 0.05) 0%,
+        rgba(5, 7, 12, 0.28) 52%,
+        rgba(5, 7, 12, 0.58) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(5, 7, 12, 0.18) 0%,
+        rgba(5, 7, 12, 0.28) 45%,
+        rgba(5, 7, 12, 0.52) 100%
+      );
+  }
 }
 
 img {

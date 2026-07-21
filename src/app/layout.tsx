@@ -125,6 +125,10 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable}`}
     >
       <body>
+        <div className="site-bg" aria-hidden="true">
+          <div className="site-bg-image" />
+          <div className="site-bg-veil" />
+        </div>
         <ScrollProgress />
         <JsonLd data={structuredData} />
         <Header />
