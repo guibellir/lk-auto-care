@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { brand, serviceAreas, services } from '@/data/brand'
 import { emailLink, phoneLink } from '@/lib/contact'
 import { ArrowRightIcon } from '@/components/Icons'
@@ -17,10 +17,37 @@ const WEB3FORMS_ACCESS_KEY =
   process.env.NEXT_PUBLIC_WEB3FORMS_KEY?.trim() ||
   ''
 
+/** Format digits as US phone: (xxx) xxx-xxxx (max 10 digits). */
+function formatUsPhone(value: string): string {
+  let digits = value.replace(/\D/g, '')
+
+  // Drop leading country code 1 if user pastes +1 / 1XXXXXXXXXX
+  if (digits.length === 11 && digits.startsWith('1')) {
+    digits = digits.slice(1)
+  }
+  digits = digits.slice(0, 10)
+
+  if (digits.length === 0) return ''
+  if (digits.length <= 3) return `(${digits}`
+  if (digits.length <= 6) {
+    return `(${digits.slice(0, 3)}) ${digits.slice(3)}`
+  }
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`
+}
+
+function isCompleteUsPhone(value: string): boolean {
+  return value.replace(/\D/g, '').length === 10
+}
+
 export function ContactForm() {
   const [formStatus, setFormStatus] = useState<FormStatus>('idle')
   const [errorMessage, setErrorMessage] = useState('')
+  const [phone, setPhone] = useState('')
   const tel = phoneLink()
+
+  const onPhoneChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPhone(formatUsPhone(event.target.value))
+  }
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -40,19 +67,26 @@ export function ContactForm() {
     // Honeypot — bots fill this; humans never see it
     if (String(data.get('website') || '').trim()) {
       setFormStatus('sent')
+      setPhone('')
       form.reset()
       return
     }
 
     const name = String(data.get('name') || '').trim()
-    const phone = String(data.get('phone') || '').trim()
+    const phoneValue = phone.trim()
     const service = String(data.get('service') || '').trim()
     const city = String(data.get('city') || '').trim()
     const message = String(data.get('message') || '').trim()
 
-    if (!name || !phone || !service || !city || !message) {
+    if (!name || !phoneValue || !service || !city || !message) {
       setFormStatus('error')
       setErrorMessage('Please fill in all required fields.')
+      return
+    }
+
+    if (!isCompleteUsPhone(phoneValue)) {
+      setFormStatus('error')
+      setErrorMessage('Please enter a valid 10-digit US phone number.')
       return
     }
 
@@ -75,7 +109,7 @@ export function ContactForm() {
           subject,
           from_name: `${brand.name} Website`,
           name,
-          phone,
+          phone: phoneValue,
           service,
           city,
           message,
@@ -97,6 +131,7 @@ export function ContactForm() {
       }
 
       setFormStatus('sent')
+      setPhone('')
       form.reset()
     } catch {
       setFormStatus('error')
@@ -143,10 +178,15 @@ export function ContactForm() {
           name="phone"
           type="tel"
           required
+          value={phone}
+          onChange={onPhoneChange}
           placeholder="(555) 123-4567"
           autoComplete="tel"
-          inputMode="tel"
+          inputMode="numeric"
           enterKeyHint="next"
+          maxLength={14}
+          pattern="\(\d{3}\) \d{3}-\d{4}"
+          title="US phone: (555) 123-4567"
           disabled={formStatus === 'submitting'}
         />
       </div>
