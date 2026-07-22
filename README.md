@@ -43,8 +43,18 @@ cp .env.example .env.local
 | Variable | Required | Description |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Recommended on production | Canonical URL, no trailing slash (e.g. `https://lkautocare.com`). Used for OG tags, canonical, sitemap, JSON-LD. |
+| `WEB3FORMS_ACCESS_KEY` | Required for contact form | Free access key from [web3forms.com](https://web3forms.com). Form submissions are emailed to the address you register (e.g. `hello@lkautocare.com`). 250 leads / month on free plan. |
 
 If unset on Vercel, the app uses `VERCEL_PROJECT_PRODUCTION_URL` / `VERCEL_URL` automatically.
+
+### Contact form (free email leads)
+
+The contact form posts to `/api/contact`, which sends the lead via **Web3Forms** (no paid SMS, no client email app).
+
+1. Go to [web3forms.com](https://web3forms.com) → create free access key with the shop email.
+2. Confirm that email in your inbox.
+3. Set `WEB3FORMS_ACCESS_KEY` in `.env.local` (local) and Vercel → Environment Variables (production).
+4. Redeploy. Submit a test lead and check the inbox (and spam folder once).
 
 ## Deploy on Vercel
 
@@ -60,6 +70,7 @@ If unset on Vercel, the app uses `VERCEL_PROJECT_PRODUCTION_URL` / `VERCEL_URL` 
 8. Environment Variables → add for **Production**:
    - `NEXT_PUBLIC_SITE_URL` = `https://lkautocare.com`  
      (or your `*.vercel.app` URL until the custom domain is live)
+   - `WEB3FORMS_ACCESS_KEY` = your free key from [web3forms.com](https://web3forms.com)
 9. Click **Deploy**.
 
 ### Option B — CLI
@@ -82,6 +93,7 @@ vercel --prod   # production
 - [ ] Homepage loads on the Vercel URL
 - [ ] Phone CTA opens dialer: `(774) 810-9849`
 - [ ] Instagram → [instagram.com/lkautocare7](https://www.instagram.com/lkautocare7/)
+- [ ] Contact form sends a lead email (Web3Forms key set; check inbox + spam)
 - [ ] `/sitemap.xml` and `/robots.txt` return 200
 - [ ] Mobile menu + sticky Call/Book bar work on iPhone Safari
 
