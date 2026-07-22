@@ -56,18 +56,9 @@ export function ContactForm() {
       return
     }
 
+    // Web3Forms already lists each field (name, phone, service, city)
+    // in the email — send only the visitor's note in `message`.
     const subject = `New lead — ${service} (${city})`
-    const fullMessage = [
-      `New quote request from the ${brand.name} website`,
-      '',
-      `Name: ${name}`,
-      `Phone: ${phone}`,
-      `Service: ${service}`,
-      `City: ${city}`,
-      '',
-      'Message:',
-      message,
-    ].join('\n')
 
     setFormStatus('submitting')
     setErrorMessage('')
@@ -87,7 +78,7 @@ export function ContactForm() {
           phone,
           service,
           city,
-          message: fullMessage,
+          message,
         }),
       })
 
