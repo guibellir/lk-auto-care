@@ -367,6 +367,17 @@ export function HomeContent() {
                   </div>
                 </div>
               ) : null}
+              {ig ? (
+                <div className="stagger-item">
+                  <InstagramIcon className="contact-instagram-icon" />
+                  <div>
+                    <strong>Instagram</strong>
+                    <a href={ig} target="_blank" rel="noopener noreferrer">
+                      @{brand.instagram}
+                    </a>
+                  </div>
+                </div>
+              ) : null}
               <div className="stagger-item">
                 <MapPinIcon />
                 <div>
@@ -383,17 +394,6 @@ export function HomeContent() {
                   <a href={emailLink()}>{brand.email}</a>
                 </div>
               </div>
-              {ig ? (
-                <div className="stagger-item">
-                  <InstagramIcon className="contact-instagram-icon" />
-                  <div>
-                    <strong>Instagram</strong>
-                    <a href={ig} target="_blank" rel="noopener noreferrer">
-                      @{brand.instagram}
-                    </a>
-                  </div>
-                </div>
-              ) : null}
             </div>
             {tel || wa || ig ? (
               <div className="contact-actions stagger-children">
