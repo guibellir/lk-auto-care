@@ -192,7 +192,7 @@ export const faqItems = [
   {
     question: 'How do I book a detail or service?',
     answer:
-      'Call or text us at (774) 810-9849, or send a request through the contact form with your vehicle, preferred service, and city. We will confirm availability and recommend the right package.',
+      'Call or text us at (774) 810-9849, message us on WhatsApp, follow @lkautocare7 on Instagram, or send a request through the contact form with your vehicle, preferred service, and city. We will confirm availability and recommend the right package.',
   },
   {
     question: 'How long does a full detail take?',
@@ -236,16 +236,28 @@ export const processSteps = [
 
 export const siteKeywords = [
   'auto detailing Everett MA',
+  'car detailing Everett',
   'car detailing Greater Boston',
+  'interior exterior detailing Massachusetts',
   'paint correction Boston',
+  'car polish Everett MA',
   'LED headlights Everett',
+  'LED headlight conversion Boston',
   'exhaust replacement Medford',
+  'exhaust system Everett MA',
   'engine remap MA',
+  'ECU tune Boston',
   'car polish Melrose',
   'premium auto care Boston',
   'LK Auto Care',
-  'detailing Somerville',
+  'detailing Somerville MA',
   'Brookline car detail',
   'Newton auto detail',
   'Watertown detailing',
+  'Cambridge car detailing',
+  'Malden auto detailing',
+  'Chelsea car detail',
+  'Revere auto detailing',
+  'mobile auto detailing near me',
+  'best car detailer Everett MA',
 ]

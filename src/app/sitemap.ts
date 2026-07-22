@@ -15,14 +15,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${site}/services`,
       lastModified: now,
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${site}/areas`,
       lastModified: now,
-      changeFrequency: 'monthly',
-      priority: 0.8,
+      changeFrequency: 'weekly',
+      priority: 0.9,
     },
   ]
 }

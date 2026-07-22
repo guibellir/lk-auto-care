@@ -49,14 +49,15 @@ export function HomeContent() {
               Based in {brand.city}, {brand.stateCode} · Est. {brand.established}
             </div>
             <h1 className="hero-reveal hero-reveal-delay-1">
-              Premium auto care
+              Premium auto detailing
               <br />
-              with a <span className="text-gradient">neon finish</span>
+              in <span className="text-gradient">Everett, MA</span>
             </h1>
             <p className="hero-text hero-reveal hero-reveal-delay-2">
               Interior & exterior detailing, paint polishing, LED headlights,
-              exhaust upgrades, and engine remap — crafted for drivers across
-              Greater Boston who want results that look as good as they feel.
+              exhaust upgrades, and engine remap from our Everett headquarters —
+              crafted for drivers across Greater Boston who want results that
+              look as good as they feel.
             </p>
             <div className="hero-actions hero-reveal hero-reveal-delay-3">
               <a className="btn btn-primary btn-lg" href="#contact">
@@ -166,9 +167,9 @@ export function HomeContent() {
               <span className="text-gradient-orange">one standard</span>
             </h2>
             <p className="section-lead">
-              From showroom-level detailing to performance upgrades — every
-              service is built around precision, clean finish, and long-term
-              pride of ownership.
+              From showroom-level auto detailing in Everett to performance
+              upgrades for Greater Boston drivers — every service is built
+              around precision, clean finish, and long-term pride of ownership.
             </p>
           </Reveal>
 
@@ -180,7 +181,7 @@ export function HomeContent() {
                 delay={index}
                 className={`service-card service-card-${index + 1}`}
               >
-                <article>
+                <article id={service.id}>
                   <div className="service-icon">{serviceIcon(service.icon)}</div>
                   <h3>{service.name}</h3>
                   <p>{service.description}</p>
@@ -192,7 +193,7 @@ export function HomeContent() {
                       </li>
                     ))}
                   </ul>
-                  <Link className="service-link" href="/services">
+                  <Link className="service-link" href={`/services#${service.id}`}>
                     Learn more <ArrowRightIcon size={16} />
                   </Link>
                 </article>
@@ -214,9 +215,10 @@ export function HomeContent() {
             </h2>
             <p className="section-lead">
               {brand.name} brings a neon-era standard to auto aesthetics and
-              light performance work in {brand.city}. Whether you need a deep
-              detail before a weekend drive or a sharper night-time beam
-              pattern, we treat every vehicle like it has somewhere to be seen.
+              light performance work in {brand.city}, {brand.stateCode}. Whether
+              you need a deep detail before a weekend drive or a sharper
+              night-time beam pattern, we treat every vehicle like it has
+              somewhere to be seen.
             </p>
             <ul className="why-list stagger-children">
               <li className="stagger-item">

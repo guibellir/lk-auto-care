@@ -5,25 +5,42 @@ import {
   serviceAreas,
   services,
 } from '@/data/brand'
+import { galleryPairs } from '@/data/gallery'
 
-/** JSON-LD for AutoRepair / LocalBusiness + FAQ + Services (local SEO) */
-export function buildStructuredData() {
+const phoneE164 = brand.phone
+  ? `+${brand.phone.replace(/\D/g, '')}`
+  : undefined
+
+/** Site-wide: LocalBusiness + WebSite (safe on every page) */
+export function buildSiteStructuredData() {
   const site = getSiteUrl()
 
   const localBusiness = {
     '@context': 'https://schema.org',
-    '@type': ['AutomotiveBusiness', 'LocalBusiness'],
+    '@type': ['AutomotiveBusiness', 'LocalBusiness', 'AutoRepair'],
     '@id': `${site}/#business`,
     name: brand.name,
-    alternateName: brand.legalName,
+    alternateName: [brand.legalName, brand.shortName],
     description: brand.description,
     url: site,
-    image: `${site}/images/logo.png`,
-    logo: `${site}/images/logo.png`,
-    ...(brand.phone ? { telephone: `+${brand.phone.replace(/\D/g, '')}` } : {}),
+    image: [
+      `${site}/images/logo.png`,
+      `${site}/images/bg-challenger.jpg`,
+      `${site}/images/gallery/gti-rear-after.jpg`,
+    ],
+    logo: {
+      '@type': 'ImageObject',
+      url: `${site}/images/logo.png`,
+      width: 493,
+      height: 495,
+    },
+    ...(phoneE164 ? { telephone: phoneE164 } : {}),
     email: brand.email,
     priceRange: brand.priceRange,
     foundingDate: String(brand.established),
+    slogan: brand.slogan,
+    currenciesAccepted: 'USD',
+    paymentAccepted: 'Cash, Credit Card',
     address: {
       '@type': 'PostalAddress',
       addressLocality: brand.city,
@@ -37,23 +54,49 @@ export function buildStructuredData() {
     },
     areaServed: serviceAreas.map((a) => ({
       '@type': 'City',
-      name: `${a.name}, ${brand.stateCode}`,
+      name: a.name,
+      containedInPlace: {
+        '@type': 'AdministrativeArea',
+        name: `${brand.state}, ${brand.countryCode}`,
+      },
     })),
-    sameAs: [`https://www.instagram.com/${brand.instagram}/`],
+    knowsAbout: services.map((s) => s.name),
+    sameAs: [
+      `https://www.instagram.com/${brand.instagram}/`,
+      ...(brand.whatsapp
+        ? [`https://wa.me/${brand.whatsapp.replace(/\D/g, '')}`]
+        : []),
+    ],
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        ...(phoneE164 ? { telephone: phoneE164 } : {}),
+        contactType: 'customer service',
+        areaServed: 'US-MA',
+        availableLanguage: ['English', 'Portuguese'],
+      },
+    ],
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
-      name: 'Auto care services',
+      name: `${brand.name} auto care services`,
       itemListElement: services.map((s, i) => ({
         '@type': 'Offer',
         position: i + 1,
+        url: `${site}/services#${s.id}`,
         itemOffered: {
           '@type': 'Service',
+          '@id': `${site}/services#${s.id}`,
           name: s.name,
           description: s.description,
           provider: { '@id': `${site}/#business` },
-          areaServed: serviceAreas.map((a) => a.name).join(', '),
+          areaServed: serviceAreas.map((a) => `${a.name}, ${brand.stateCode}`),
+          serviceType: s.shortName,
         },
       })),
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${site}/`,
     },
   }
 
@@ -62,15 +105,42 @@ export function buildStructuredData() {
     '@type': 'WebSite',
     '@id': `${site}/#website`,
     url: site,
-    name: `${brand.name} — Premium Auto Detailing in ${brand.city}, ${brand.stateCode}`,
-    description: brand.slogan,
+    name: brand.name,
+    alternateName: brand.legalName,
+    description: `${brand.name} — premium auto detailing, polishing, LED headlights, exhaust & engine remap in ${brand.city}, ${brand.stateCode} and Greater Boston.`,
     publisher: { '@id': `${site}/#business` },
+    inLanguage: brand.language,
+    copyrightYear: brand.established,
+    copyrightHolder: { '@id': `${site}/#business` },
+  }
+
+  return [localBusiness, webSite]
+}
+
+/** Homepage only — FAQ must match visible FAQ content */
+export function buildHomeStructuredData() {
+  const site = getSiteUrl()
+
+  const webPage = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${site}/#webpage`,
+    url: site,
+    name: `${brand.name} | Premium Auto Detailing in ${brand.city}, ${brand.stateCode}`,
+    description: brand.description,
+    isPartOf: { '@id': `${site}/#website` },
+    about: { '@id': `${site}/#business` },
+    primaryImageOfPage: {
+      '@type': 'ImageObject',
+      url: `${site}/images/bg-challenger.jpg`,
+    },
     inLanguage: brand.language,
   }
 
   const faqPage = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
+    '@id': `${site}/#faq`,
     mainEntity: faqItems.map((item) => ({
       '@type': 'Question',
       name: item.question,
@@ -84,15 +154,58 @@ export function buildStructuredData() {
   const serviceList = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'LK Auto Care services',
+    '@id': `${site}/#services-list`,
+    name: `${brand.name} services`,
+    numberOfItems: services.length,
     itemListElement: services.map((s, i) => ({
       '@type': 'ListItem',
       position: i + 1,
       name: s.name,
       description: s.description,
-      url: `${site}/#services`,
+      url: `${site}/services#${s.id}`,
     })),
   }
 
-  return [localBusiness, webSite, faqPage, serviceList]
+  const imageGallery = {
+    '@context': 'https://schema.org',
+    '@type': 'ImageGallery',
+    '@id': `${site}/#gallery`,
+    name: `${brand.name} before & after detailing results`,
+    description:
+      'Real before and after auto detailing results from LK Auto Care in Everett, MA.',
+    url: `${site}/#gallery`,
+    image: galleryPairs.flatMap((pair) => [
+      {
+        '@type': 'ImageObject',
+        contentUrl: `${site}${pair.before}`,
+        name: pair.beforeAlt,
+        description: pair.beforeAlt,
+      },
+      {
+        '@type': 'ImageObject',
+        contentUrl: `${site}${pair.after}`,
+        name: pair.afterAlt,
+        description: pair.afterAlt,
+      },
+    ]),
+  }
+
+  return [webPage, faqPage, serviceList, imageGallery]
 }
+
+export function buildBreadcrumbList(
+  items: { name: string; path: string }[],
+) {
+  const site = getSiteUrl()
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: item.name,
+      item: `${site}${item.path === '/' ? '/' : item.path}`,
+    })),
+  }
+}
+

@@ -6,7 +6,7 @@ import { MobileCtaBar } from '@/components/MobileCtaBar'
 import { ScrollProgress } from '@/components/ScrollProgress'
 import { JsonLd } from '@/components/JsonLd'
 import { brand, getSiteUrl, siteKeywords } from '@/data/brand'
-import { buildStructuredData } from '@/seo/structuredData'
+import { buildSiteStructuredData } from '@/seo/structuredData'
 import './globals.css'
 
 const inter = Inter({
@@ -28,6 +28,10 @@ const spaceGrotesk = Space_Grotesk({
 
 const siteUrl = getSiteUrl()
 
+const defaultTitle = `${brand.name} | Premium Auto Detailing in ${brand.city}, ${brand.stateCode}`
+const defaultDescription =
+  'Premium auto detailing, paint polishing, LED headlights, exhaust replacement & engine remap in Everett, MA. Serving Greater Boston — Medford, Melrose, Somerville, Cambridge & more.'
+
 export const viewport: Viewport = {
   themeColor: [
     { media: '(prefers-color-scheme: dark)', color: '#05070c' },
@@ -42,10 +46,10 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${brand.name} | Premium Auto Detailing in ${brand.city}, ${brand.stateCode}`,
+    default: defaultTitle,
     template: `%s | ${brand.name}`,
   },
-  description: brand.description,
+  description: defaultDescription,
   applicationName: brand.name,
   authors: [{ name: brand.name, url: siteUrl }],
   creator: brand.name,
@@ -63,9 +67,11 @@ export const metadata: Metadata = {
     address: true,
   },
   icons: {
-    icon: '/favicon.png',
-    apple: '/images/logo-256.png',
+    icon: [{ url: '/favicon.png', type: 'image/png' }],
+    apple: [{ url: '/images/logo-256.png', sizes: '256x256', type: 'image/png' }],
+    shortcut: '/favicon.png',
   },
+  manifest: '/site.webmanifest',
   alternates: {
     canonical: '/',
   },
@@ -74,24 +80,30 @@ export const metadata: Metadata = {
     locale: brand.locale,
     url: siteUrl,
     siteName: brand.name,
-    title: `${brand.name} | Premium Auto Detailing in ${brand.city}, ${brand.stateCode}`,
-    description:
-      'Interior & exterior detailing, polishing, LED headlights, exhaust & engine remap. Based in Everett — serving Greater Boston.',
+    title: defaultTitle,
+    description: defaultDescription,
     images: [
+      {
+        url: '/images/bg-challenger.jpg',
+        width: 1280,
+        height: 720,
+        alt: `${brand.name} — premium auto detailing in ${brand.city}, ${brand.stateCode}`,
+        type: 'image/jpeg',
+      },
       {
         url: '/images/logo.png',
         width: 493,
         height: 495,
-        alt: 'LK Auto Care neon logo — premium auto care Boston',
+        alt: `${brand.name} neon logo`,
+        type: 'image/png',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${brand.name} | Premium Auto Detailing Everett MA`,
-    description:
-      'Detailing, polish, LED, exhaust & remap in Everett and Greater Boston.',
-    images: ['/images/logo.png'],
+    title: `${brand.name} | Auto Detailing ${brand.city} ${brand.stateCode}`,
+    description: defaultDescription,
+    images: ['/images/bg-challenger.jpg'],
   },
   robots: {
     index: true,
@@ -109,6 +121,9 @@ export const metadata: Metadata = {
     'geo.placename': brand.city,
     'geo.position': '42.4084;-71.0537',
     ICBM: '42.4084, -71.0537',
+    'business:contact_data:locality': brand.city,
+    'business:contact_data:region': brand.stateCode,
+    'business:contact_data:country_name': brand.country,
   },
 }
 
@@ -117,7 +132,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const structuredData = buildStructuredData()
+  const structuredData = buildSiteStructuredData()
 
   return (
     <html
