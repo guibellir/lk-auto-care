@@ -6,11 +6,12 @@ export function phoneLink(): string | null {
 }
 
 export function whatsappLink(message?: string): string | null {
-  if (!brand.whatsapp) return null
+  const digits = (brand.whatsapp || brand.phone || '').replace(/\D/g, '')
+  if (!digits) return null
   const text =
     message ??
     `Hi! I found ${brand.name} online and I would like to book a service.`
-  return `https://wa.me/${brand.whatsapp}?text=${encodeURIComponent(text)}`
+  return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`
 }
 
 export function emailLink(subject?: string): string {

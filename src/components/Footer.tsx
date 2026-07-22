@@ -1,11 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { brand } from '@/data/brand'
-import { emailLink, instagramUrl, phoneLink } from '@/lib/contact'
-import { InstagramIcon, MailIcon, PhoneIcon } from '@/components/Icons'
+import { emailLink, instagramUrl, phoneLink, whatsappLink } from '@/lib/contact'
+import { InstagramIcon, MailIcon, PhoneIcon, WhatsAppIcon } from '@/components/Icons'
 
 export function Footer() {
   const tel = phoneLink()
+  const wa = whatsappLink()
   const year = new Date().getFullYear()
 
   return (
@@ -63,6 +64,11 @@ export function Footer() {
           {tel ? (
             <a href={tel}>
               <PhoneIcon size={16} /> {brand.phoneDisplay || brand.phone}
+            </a>
+          ) : null}
+          {wa ? (
+            <a href={wa} target="_blank" rel="noopener noreferrer">
+              <WhatsAppIcon size={16} /> WhatsApp
             </a>
           ) : null}
           <a href={emailLink()}>

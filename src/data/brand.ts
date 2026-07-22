@@ -21,8 +21,8 @@ export const brand = {
   email: 'hello@lkautocare.com',
   /** Instagram handle without @ — update when live */
   instagram: 'lkautocare7',
-  /** WhatsApp digits only with country code, e.g. 17815551234 — leave empty until set */
-  whatsapp: '' as string,
+  /** WhatsApp digits only with country code (same line as phone) */
+  whatsapp: '17748109849',
   priceRange: '$$',
   locale: 'en_US',
   language: 'en-US',

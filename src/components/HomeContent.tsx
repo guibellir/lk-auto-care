@@ -17,13 +17,15 @@ import {
   MailIcon,
   MapPinIcon,
   PhoneIcon,
+  WhatsAppIcon,
   serviceIcon,
 } from '@/components/Icons'
-import { emailLink, phoneLink } from '@/lib/contact'
+import { emailLink, phoneLink, whatsappLink } from '@/lib/contact'
 
 export function HomeContent() {
   const marqueeCities = [...serviceAreas, ...serviceAreas]
   const tel = phoneLink()
+  const wa = whatsappLink()
 
   return (
     <main id="main">
@@ -352,6 +354,17 @@ export function HomeContent() {
                   </div>
                 </div>
               ) : null}
+              {wa ? (
+                <div className="stagger-item">
+                  <WhatsAppIcon className="contact-whatsapp-icon" />
+                  <div>
+                    <strong>WhatsApp</strong>
+                    <a href={wa} target="_blank" rel="noopener noreferrer">
+                      Message us on WhatsApp
+                    </a>
+                  </div>
+                </div>
+              ) : null}
               <div className="stagger-item">
                 <MapPinIcon />
                 <div>
@@ -369,12 +382,25 @@ export function HomeContent() {
                 </div>
               </div>
             </div>
-            {tel ? (
+            {tel || wa ? (
               <div className="contact-actions stagger-children">
-                <a className="btn btn-secondary stagger-item" href={tel}>
-                  <PhoneIcon size={18} />
-                  Call {brand.phoneDisplay || brand.phone}
-                </a>
+                {tel ? (
+                  <a className="btn btn-secondary stagger-item" href={tel}>
+                    <PhoneIcon size={18} />
+                    Call {brand.phoneDisplay || brand.phone}
+                  </a>
+                ) : null}
+                {wa ? (
+                  <a
+                    className="btn btn-whatsapp stagger-item"
+                    href={wa}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <WhatsAppIcon size={18} />
+                    WhatsApp
+                  </a>
+                ) : null}
               </div>
             ) : null}
           </Reveal>
