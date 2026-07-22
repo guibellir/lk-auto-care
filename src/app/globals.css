@@ -1252,6 +1252,48 @@ ul {
   color: var(--neon);
 }
 
+/* Home base — stronger presence than surrounding cities */
+.marquee-item-hq {
+  gap: 0.5rem;
+  padding: 0.35rem 0.7rem 0.35rem 0.55rem;
+  border-radius: 999px;
+  color: var(--text);
+  font-weight: 700;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 229, 255, 0.16),
+    rgba(255, 106, 0, 0.1)
+  );
+  border: 1px solid rgba(0, 229, 255, 0.45);
+  box-shadow:
+    0 0 18px rgba(0, 229, 255, 0.18),
+    inset 0 0 12px rgba(0, 229, 255, 0.06);
+}
+
+.marquee-item-hq svg {
+  color: var(--neon-soft);
+  filter: drop-shadow(0 0 6px rgba(0, 229, 255, 0.55));
+}
+
+.marquee-item-hq .marquee-item-name {
+  color: var(--neon-soft);
+  letter-spacing: 0.06em;
+}
+
+.marquee-hq-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  color: #1a0f05;
+  background: linear-gradient(135deg, #ffb347, #ff6a00);
+  box-shadow: 0 0 10px rgba(255, 106, 0, 0.35);
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);

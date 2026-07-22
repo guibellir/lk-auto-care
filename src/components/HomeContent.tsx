@@ -138,10 +138,15 @@ export function HomeContent() {
                 aria-hidden={copy === 1 ? true : undefined}
               >
                 {marqueeSequence.map((area, i) => (
-                  <span className="marquee-item" key={`${copy}-${area.name}-${i}`}>
+                  <span
+                    className={`marquee-item${area.primary ? ' marquee-item-hq' : ''}`}
+                    key={`${copy}-${area.name}-${i}`}
+                  >
                     <MapPinIcon size={14} />
-                    {area.name}
-                    {area.primary ? ' · HQ' : ''}
+                    <span className="marquee-item-name">{area.name}</span>
+                    {area.primary ? (
+                      <span className="marquee-hq-badge">Headquarters</span>
+                    ) : null}
                   </span>
                 ))}
               </div>
