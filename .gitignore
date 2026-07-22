@@ -34,9 +34,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
-.env
+# env files — .env is tracked (Web3Forms key for contact form).
+# Keep machine-only overrides in .env.local (still ignored).
 .env*.local
+!.env
 !.env.example
 
 # vercel

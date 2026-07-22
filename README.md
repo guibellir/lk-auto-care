@@ -43,7 +43,7 @@ cp .env.example .env.local
 | Variable | Required | Description |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Recommended on production | Canonical URL, no trailing slash (e.g. `https://lkautocare.com`). Used for OG tags, canonical, sitemap, JSON-LD. |
-| `WEB3FORMS_ACCESS_KEY` | Required for contact form | Free access key from [web3forms.com](https://web3forms.com). Form submissions are emailed to the address you register (e.g. `hello@lkautocare.com`). 250 leads / month on free plan. |
+| `WEB3FORMS_ACCESS_KEY` | Required for contact form | Free access key from [web3forms.com](https://web3forms.com). Already set in committed `.env` for this project. 250 leads / month on free plan. |
 
 If unset on Vercel, the app uses `VERCEL_PROJECT_PRODUCTION_URL` / `VERCEL_URL` automatically.
 
@@ -53,8 +53,9 @@ The contact form posts to `/api/contact`, which sends the lead via **Web3Forms**
 
 1. Go to [web3forms.com](https://web3forms.com) → create free access key with the shop email.
 2. Confirm that email in your inbox.
-3. Set `WEB3FORMS_ACCESS_KEY` in `.env.local` (local) and Vercel → Environment Variables (production).
-4. Redeploy. Submit a test lead and check the inbox (and spam folder once).
+3. Put the key in `.env` (`WEB3FORMS_ACCESS_KEY=...`) — this file is committed in this repo so deploys pick it up.
+4. Optional: also set it on Vercel → Environment Variables if you prefer dashboard overrides.
+5. Redeploy if needed. Submit a test lead and check the inbox (and spam folder once).
 
 ## Deploy on Vercel
 
