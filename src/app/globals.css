@@ -1941,6 +1941,98 @@ ul {
   object-fit: cover;
 }
 
+.gallery-instagram {
+  margin-top: 2rem;
+}
+
+.gallery-instagram-card {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.35rem 1.4rem;
+  align-items: center;
+}
+
+@media (min-width: 720px) {
+  .gallery-instagram-card {
+    grid-template-columns: 1fr auto;
+    gap: 1.75rem;
+    padding: 1.5rem 1.75rem;
+  }
+}
+
+.gallery-instagram-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f0a7c8;
+  margin-bottom: 0.45rem;
+}
+
+.gallery-instagram-copy h3 {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0 0 0.45rem;
+  color: var(--text);
+}
+
+.gallery-instagram-copy p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  max-width: 42ch;
+}
+
+.btn-instagram {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(225, 48, 108, 0.45);
+  background: linear-gradient(
+    135deg,
+    rgba(131, 58, 180, 0.22),
+    rgba(225, 48, 108, 0.18),
+    rgba(253, 29, 29, 0.14)
+  );
+  color: #ffc2d8;
+  font-weight: 600;
+  padding: 0.7rem 1.15rem;
+  min-height: 48px;
+  white-space: nowrap;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.btn-instagram:hover {
+  border-color: rgba(253, 175, 73, 0.55);
+  color: #ffe0ec;
+  background: linear-gradient(
+    135deg,
+    rgba(131, 58, 180, 0.32),
+    rgba(225, 48, 108, 0.28),
+    rgba(253, 29, 29, 0.2)
+  );
+}
+
+.btn-instagram:active {
+  transform: scale(0.98);
+}
+
+.contact-instagram-icon {
+  color: #f0a7c8 !important;
+}
+
 /* ——— FAQ ——— */
 .faq-layout {
   display: grid;

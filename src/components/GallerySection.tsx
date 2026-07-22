@@ -2,12 +2,16 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
+import { brand } from '@/data/brand'
 import { galleryPairs } from '@/data/gallery'
 import { Reveal } from '@/components/Reveal'
+import { InstagramIcon } from '@/components/Icons'
+import { instagramUrl } from '@/lib/contact'
 
 export function GallerySection() {
   const [active, setActive] = useState(0)
   const pair = galleryPairs[active]
+  const ig = instagramUrl()
 
   return (
     <section className="section gallery" id="gallery">
@@ -100,6 +104,34 @@ export function GallerySection() {
             </button>
           ))}
         </div>
+
+        <Reveal className="gallery-instagram" delayMs={100}>
+          <div className="gallery-instagram-card glass-panel">
+            <div className="gallery-instagram-copy">
+              <span className="gallery-instagram-label">
+                <InstagramIcon size={16} />
+                On Instagram
+              </span>
+              <h3>
+                More transformations live on{' '}
+                <span className="text-gradient">@{brand.instagram}</span>
+              </h3>
+              <p>
+                Follow us for the latest details, paint corrections, and
+                garage drops — fresh work as it happens.
+              </p>
+            </div>
+            <a
+              className="btn btn-instagram"
+              href={ig}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <InstagramIcon size={18} />
+              Follow on Instagram
+            </a>
+          </div>
+        </Reveal>
       </div>
     </section>
   )

@@ -14,18 +14,20 @@ import { GallerySection } from '@/components/GallerySection'
 import {
   ArrowRightIcon,
   CheckIcon,
+  InstagramIcon,
   MailIcon,
   MapPinIcon,
   PhoneIcon,
   WhatsAppIcon,
   serviceIcon,
 } from '@/components/Icons'
-import { emailLink, phoneLink, whatsappLink } from '@/lib/contact'
+import { emailLink, instagramUrl, phoneLink, whatsappLink } from '@/lib/contact'
 
 export function HomeContent() {
   const marqueeCities = [...serviceAreas, ...serviceAreas]
   const tel = phoneLink()
   const wa = whatsappLink()
+  const ig = instagramUrl()
 
   return (
     <main id="main">
@@ -381,8 +383,19 @@ export function HomeContent() {
                   <a href={emailLink()}>{brand.email}</a>
                 </div>
               </div>
+              {ig ? (
+                <div className="stagger-item">
+                  <InstagramIcon className="contact-instagram-icon" />
+                  <div>
+                    <strong>Instagram</strong>
+                    <a href={ig} target="_blank" rel="noopener noreferrer">
+                      @{brand.instagram}
+                    </a>
+                  </div>
+                </div>
+              ) : null}
             </div>
-            {tel || wa ? (
+            {tel || wa || ig ? (
               <div className="contact-actions stagger-children">
                 {tel ? (
                   <a className="btn btn-secondary stagger-item" href={tel}>
@@ -399,6 +412,17 @@ export function HomeContent() {
                   >
                     <WhatsAppIcon size={18} />
                     WhatsApp
+                  </a>
+                ) : null}
+                {ig ? (
+                  <a
+                    className="btn btn-instagram stagger-item"
+                    href={ig}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <InstagramIcon size={18} />
+                    Instagram
                   </a>
                 ) : null}
               </div>
