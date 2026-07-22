@@ -43,19 +43,18 @@ cp .env.example .env.local
 | Variable | Required | Description |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Recommended on production | Canonical URL, no trailing slash (e.g. `https://lkautocare.com`). Used for OG tags, canonical, sitemap, JSON-LD. |
-| `WEB3FORMS_ACCESS_KEY` | Required for contact form | Free access key from [web3forms.com](https://web3forms.com). Already set in committed `.env` for this project. 250 leads / month on free plan. |
+| `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` | Required for contact form | Free access key from [web3forms.com](https://web3forms.com). Already set in committed `.env`. Free plan is **browser-only** (must be `NEXT_PUBLIC_`). 250 leads / month. |
 
 If unset on Vercel, the app uses `VERCEL_PROJECT_PRODUCTION_URL` / `VERCEL_URL` automatically.
 
 ### Contact form (free email leads)
 
-The contact form posts to `/api/contact`, which sends the lead via **Web3Forms** (no paid SMS, no client email app).
+The form submits **from the browser** straight to Web3Forms (free plan blocks server-side API calls). Leads land in the email tied to the access key (the Google/Gmail you used when creating it).
 
-1. Go to [web3forms.com](https://web3forms.com) → create free access key with the shop email.
+1. Go to [web3forms.com](https://web3forms.com) → create free access key.
 2. Confirm that email in your inbox.
-3. Put the key in `.env` (`WEB3FORMS_ACCESS_KEY=...`) — this file is committed in this repo so deploys pick it up.
-4. Optional: also set it on Vercel → Environment Variables if you prefer dashboard overrides.
-5. Redeploy if needed. Submit a test lead and check the inbox (and spam folder once).
+3. Put the key in `.env` as `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=...` (committed in this repo).
+4. Redeploy if needed. Submit a test lead and check inbox + spam.
 
 ## Deploy on Vercel
 
@@ -71,7 +70,7 @@ The contact form posts to `/api/contact`, which sends the lead via **Web3Forms**
 8. Environment Variables → add for **Production**:
    - `NEXT_PUBLIC_SITE_URL` = `https://lkautocare.com`  
      (or your `*.vercel.app` URL until the custom domain is live)
-   - `WEB3FORMS_ACCESS_KEY` = your free key from [web3forms.com](https://web3forms.com)
+   - `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` = your free key from [web3forms.com](https://web3forms.com) (optional if `.env` is in the repo)
 9. Click **Deploy**.
 
 ### Option B — CLI

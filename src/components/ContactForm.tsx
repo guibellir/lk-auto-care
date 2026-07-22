@@ -7,6 +7,16 @@ import { ArrowRightIcon } from '@/components/Icons'
 
 type FormStatus = 'idle' | 'submitting' | 'sent' | 'error'
 
+/**
+ * Web3Forms free plan only allows submissions from the browser
+ * (server-side /api calls return "method is not allowed").
+ * Access key is public-by-design for client forms.
+ */
+const WEB3FORMS_ACCESS_KEY =
+  process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY?.trim() ||
+  process.env.NEXT_PUBLIC_WEB3FORMS_KEY?.trim() ||
+  ''
+
 export function ContactForm() {
   const [formStatus, setFormStatus] = useState<FormStatus>('idle')
   const [errorMessage, setErrorMessage] = useState('')
@@ -16,37 +26,80 @@ export function ContactForm() {
     event.preventDefault()
     if (formStatus === 'submitting') return
 
+    if (!WEB3FORMS_ACCESS_KEY) {
+      setFormStatus('error')
+      setErrorMessage(
+        'Form is not configured yet. Please call or text us directly.',
+      )
+      return
+    }
+
     const form = event.currentTarget
     const data = new FormData(form)
 
-    const payload = {
-      name: String(data.get('name') || '').trim(),
-      phone: String(data.get('phone') || '').trim(),
-      service: String(data.get('service') || '').trim(),
-      city: String(data.get('city') || '').trim(),
-      message: String(data.get('message') || '').trim(),
-      website: String(data.get('website') || '').trim(),
+    // Honeypot — bots fill this; humans never see it
+    if (String(data.get('website') || '').trim()) {
+      setFormStatus('sent')
+      form.reset()
+      return
     }
+
+    const name = String(data.get('name') || '').trim()
+    const phone = String(data.get('phone') || '').trim()
+    const service = String(data.get('service') || '').trim()
+    const city = String(data.get('city') || '').trim()
+    const message = String(data.get('message') || '').trim()
+
+    if (!name || !phone || !service || !city || !message) {
+      setFormStatus('error')
+      setErrorMessage('Please fill in all required fields.')
+      return
+    }
+
+    const subject = `New lead — ${service} (${city})`
+    const fullMessage = [
+      `New quote request from the ${brand.name} website`,
+      '',
+      `Name: ${name}`,
+      `Phone: ${phone}`,
+      `Service: ${service}`,
+      `City: ${city}`,
+      '',
+      'Message:',
+      message,
+    ].join('\n')
 
     setFormStatus('submitting')
     setErrorMessage('')
 
     try {
-      const res = await fetch('/api/contact', {
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload),
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject,
+          from_name: `${brand.name} Website`,
+          name,
+          phone,
+          service,
+          city,
+          message: fullMessage,
+        }),
       })
 
       const json = (await res.json().catch(() => null)) as {
-        ok?: boolean
-        error?: string
+        success?: boolean
+        message?: string
       } | null
 
-      if (!res.ok || !json?.ok) {
+      if (!res.ok || !json?.success) {
         setFormStatus('error')
         setErrorMessage(
-          json?.error ||
+          json?.message ||
             'Could not send your request. Please try again or call us.',
         )
         return
@@ -63,7 +116,7 @@ export function ContactForm() {
   }
 
   return (
-    <form className="contact-form glass-panel" onSubmit={onSubmit} noValidate={false}>
+    <form className="contact-form glass-panel" onSubmit={onSubmit}>
       {/* Honeypot — hidden from real users */}
       <div className="form-honeypot" aria-hidden="true">
         <label htmlFor="website">Website</label>
