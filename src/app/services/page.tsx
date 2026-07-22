@@ -7,9 +7,10 @@ import {
   ArrowRightIcon,
   CheckIcon,
   PhoneIcon,
+  WhatsAppIcon,
   serviceIcon,
 } from '@/components/Icons'
-import { phoneLink } from '@/lib/contact'
+import { phoneLink, whatsappLink } from '@/lib/contact'
 import { buildBreadcrumbList } from '@/seo/structuredData'
 
 const site = getSiteUrl()
@@ -53,6 +54,7 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   const tel = phoneLink()
+  const wa = whatsappLink()
   const structured = [
     buildBreadcrumbList([
       { name: 'Home', path: '/' },
@@ -164,9 +166,22 @@ export default function ServicesPage() {
                     Give us a call
                   </a>
                 ) : null}
+                {wa ? (
+                  <a
+                    className="btn btn-whatsapp btn-lg"
+                    href={wa}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <WhatsAppIcon size={18} />
+                    WhatsApp
+                  </a>
+                ) : null}
                 <Link
                   className={
-                    tel ? 'btn btn-secondary btn-lg' : 'btn btn-primary btn-lg'
+                    tel || wa
+                      ? 'btn btn-secondary btn-lg'
+                      : 'btn btn-primary btn-lg'
                   }
                   href="/#contact"
                 >
