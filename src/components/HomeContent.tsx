@@ -24,7 +24,9 @@ import {
 import { emailLink, instagramUrl, phoneLink, whatsappLink } from '@/lib/contact'
 
 export function HomeContent() {
-  const marqueeCities = [...serviceAreas, ...serviceAreas]
+  // Two identical groups → seamless -50% loop (see .marquee-track CSS).
+  // Each group repeats the city list so wide screens never show empty track.
+  const marqueeSequence = [...serviceAreas, ...serviceAreas]
   const tel = phoneLink()
   const wa = whatsappLink()
   const ig = instagramUrl()
@@ -125,16 +127,24 @@ export function HomeContent() {
         </div>
       </section>
 
-      {/* MARQUEE */}
+      {/* MARQUEE — infinite loop (two identical groups) */}
       <section className="marquee-section" aria-label="Cities we serve">
         <div className="marquee">
           <div className="marquee-track">
-            {marqueeCities.map((area, i) => (
-              <span className="marquee-item" key={`${area.name}-${i}`}>
-                <MapPinIcon size={14} />
-                {area.name}
-                {area.primary ? ' · HQ' : ''}
-              </span>
+            {[0, 1].map((copy) => (
+              <div
+                className="marquee-group"
+                key={copy}
+                aria-hidden={copy === 1 ? true : undefined}
+              >
+                {marqueeSequence.map((area, i) => (
+                  <span className="marquee-item" key={`${copy}-${area.name}-${i}`}>
+                    <MapPinIcon size={14} />
+                    {area.name}
+                    {area.primary ? ' · HQ' : ''}
+                  </span>
+                ))}
+              </div>
             ))}
           </div>
         </div>

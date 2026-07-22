@@ -1219,11 +1219,21 @@ ul {
   mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
 }
 
+/* Two equal-width groups; animate -50% so the loop has no gap */
 .marquee-track {
   display: flex;
-  gap: 2rem;
   width: max-content;
-  animation: marquee 40s linear infinite;
+  animation: marquee 45s linear infinite;
+  will-change: transform;
+}
+
+.marquee-group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 2rem;
+  /* Matches gap so the seam between groups looks like any other gap */
+  padding-inline-end: 2rem;
 }
 
 .marquee-item {
@@ -1243,7 +1253,11 @@ ul {
 }
 
 @keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
   to {
+    /* Exactly one group width — seamless because groups are identical */
     transform: translateX(-50%);
   }
 }
