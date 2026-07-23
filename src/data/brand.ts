@@ -17,8 +17,7 @@ export const brand = {
   /** Digits with country code (US = 1) — used for tel: and schema */
   phone: '17748109849',
   phoneDisplay: '(774) 810-9849',
-  /** Update when email is confirmed */
-  email: 'hello@lkautocare.com',
+  email: 'contact@lkautocare.net',
   /** Instagram handle without @ — update when live */
   instagram: 'lkautocare7',
   /** WhatsApp digits only with country code (same line as phone) */
@@ -50,7 +49,7 @@ export function getSiteUrl(): string {
     return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL.replace(/^https?:\/\//, '')}`
   }
 
-  return 'https://lkautocare.com'
+  return 'https://lkautocare.net'
 }
 
 export type Service = {

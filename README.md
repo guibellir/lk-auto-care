@@ -42,7 +42,7 @@ cp .env.example .env.local
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Recommended on production | Canonical URL, no trailing slash (e.g. `https://lkautocare.com`). Used for OG tags, canonical, sitemap, JSON-LD. |
+| `NEXT_PUBLIC_SITE_URL` | Recommended on production | Canonical URL, no trailing slash (e.g. `https://lkautocare.net`). Used for OG tags, canonical, sitemap, JSON-LD. |
 | `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` | Required for contact form | Free access key from [web3forms.com](https://web3forms.com). Already set in committed `.env`. Free plan is **browser-only** (must be `NEXT_PUBLIC_`). 250 leads / month. |
 
 If unset on Vercel, the app uses `VERCEL_PROJECT_PRODUCTION_URL` / `VERCEL_URL` automatically.
@@ -68,8 +68,7 @@ The form submits **from the browser** straight to Web3Forms (free plan blocks se
 6. Build Command: `next build` (default).
 7. Output: leave default (Next.js handles it).
 8. Environment Variables → add for **Production**:
-   - `NEXT_PUBLIC_SITE_URL` = `https://lkautocare.com`  
-     (or your `*.vercel.app` URL until the custom domain is live)
+   - `NEXT_PUBLIC_SITE_URL` = `https://lkautocare.net`
    - `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` = your free key from [web3forms.com](https://web3forms.com) (optional if `.env` is in the repo)
 9. Click **Deploy**.
 
@@ -84,9 +83,9 @@ vercel --prod   # production
 ### Custom domain
 
 1. Vercel → Project → **Settings → Domains**
-2. Add `lkautocare.com` (and `www` if desired)
+2. Add `lkautocare.net` (and `www` if desired)
 3. Set DNS as Vercel instructs
-4. Update `NEXT_PUBLIC_SITE_URL` to `https://lkautocare.com` and redeploy
+4. Update `NEXT_PUBLIC_SITE_URL` to `https://lkautocare.net` and redeploy
 
 ### After deploy checklist
 
