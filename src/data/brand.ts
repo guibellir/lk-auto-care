@@ -49,7 +49,8 @@ export function getSiteUrl(): string {
     return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL.replace(/^https?:\/\//, '')}`
   }
 
-  return 'https://lkautocare.net'
+  // Primary host on Vercel is www (apex redirects 308 → www)
+  return 'https://www.lkautocare.net'
 }
 
 export type Service = {
